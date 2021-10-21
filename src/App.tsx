@@ -6,6 +6,11 @@ import { Route, Switch } from 'react-router';
 import { Footer } from 'antd/lib/layout/layout';
 import OrderManager from './components/OrderManager/OrderManager';
 import OrderCreationCN from './components/contentNodes/OrderCreationCN';
+import OrderViewCN from './components/contentNodes/OrderViewCN';
+import AdminCN from './components/contentNodes/AdminCN';
+import Options from './components/contentNodes/Options';
+import { routesEnum } from './types/routes';
+import Graph from './components/contentNodes/Graph';
 
 const mainStyle: CSSProperties = {
   backgroundColor: grey[0],
@@ -28,15 +33,31 @@ function App() {
   return (
     <main style={mainStyle}>
       <Switch>
-        <Route path="/order-creation">
+
+        <Route path={routesEnum.ORDER_CREATION}>
           <OrderCreationCN />
         </Route>
-        <Route path="/order-view">
-        <Footer />
+
+        <Route path={routesEnum.ORDER_VIEW}>
+          <OrderViewCN />
         </Route>
-        <Route path="/">
+
+        <Route path={routesEnum.ADMIN}>
+          <AdminCN />
+        </Route>
+
+        <Route path={routesEnum.OPTIONS}>
+          <Options />
+        </Route>
+
+        <Route path={routesEnum.GRAPH}>
+          <Graph />
+        </Route>
+
+        <Route path={routesEnum.ORDER_MANAGER}>
           <OrderManager />
         </Route>
+        
       </Switch>
     </main>
   );

@@ -1,16 +1,16 @@
-import { CSSProperties, FunctionComponent, useEffect, useState } from "react";
-import { grey } from '@ant-design/colors';
-import Table from '../Table';
+import { CSSProperties, FunctionComponent, useEffect } from "react";
 import { Row, Col, Button } from "antd";
 import CustomCascader from "../CustomCascader";
 import CustomDatePicker from "../CustomDatePicker";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import { customButtonsStyleType } from "../../types/buttonTypes";
-import { gray } from "../../custom-styles-for-antd/styleVariables";
+import { customStyleButton, gray, whiteColor, blackText } from "../../custom-styles-for-antd/styleVariables";
+import { NavLink } from "react-router-dom";
+import AddButton from "../buttons/AddButton";
+import RawMaterialItem from "../RawMaterialItem/RawMaterialItem";
 
 interface OrderCreationCNProps {
 
@@ -20,10 +20,18 @@ interface OrderCreationCNProps {
 const width: CSSProperties = {
   minWidth: 196
 };
+const { block, shape, style, type, } = customStyleButton;
+
 
 const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
-  const isOnRight = useTypedSelector(state => state.orderCreation.isContentOnRight);
+  const {isContentOnRight:isOnRight,isNextBtnDisabled} = useTypedSelector(state => state.orderCreation);
 
+  const { setOnRight, setOnLeft } = useActions();
+  const rawMaterialList = useTypedSelector(state => state.orderCreation.rawMaterialList);
+
+  useEffect(function () {
+    return () => { setOnLeft();};
+  }, []);
   return (
     <>
       <Header buttonName={customButtonsStyleType.orderCreation} />
@@ -35,13 +43,42 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
             <Col span={24} className="order-creation__item"><CustomDatePicker props={{ width: width }} /></Col>
           </Row>
         </section>
-        <section >
-          <CustomCascader defaultValue={""} />
+        <section className="order-creation__section order-creation__section_j-c-center">
+          {rawMaterialList.map((rawMaterial, index: number) => {
+            return <RawMaterialItem  key={index} index={index} />;
+                })}
+          <AddButton />
         </section>
-        <Footer >
-          <Button>sdfsdf</Button>
-        </Footer>
+
       </div>
+      <Footer >
+        <div className="order-creation__button-wrapper">
+          <NavLink to={'/'} className="order-creation__navlink">
+            <Button
+              block={block}
+              type={type}
+              shape={shape}
+              style={{ ...blackText, ...whiteColor, ...style }}
+            >
+              {customButtonsStyleType.cancel}
+            </Button>
+          </NavLink>
+          <div className="order-creation__navlink">
+            <Button
+              block={block}
+              type={type}
+              shape={shape}
+              style={style}
+              disabled={!isNextBtnDisabled}
+              onClick={isOnRight ? undefined : setOnRight}
+            >
+              {customButtonsStyleType.next}
+            </Button>
+          </div>
+
+
+        </div>
+      </Footer>
     </>
   );
 };

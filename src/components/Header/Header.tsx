@@ -18,7 +18,7 @@ const Header: FunctionComponent<HeaderProps> = ({buttonName}) => {
   };
   return ( 
     <div>
-      <MainMenu collapsed={collapsed} />
+      <MainMenu collapsed={collapsed} onClick={toggleCollapsed} />
       <Header  className="header">
         <Button type={type} block={block} shape={shape} style={{...limeColor,...style}} onClick={toggleCollapsed}>{buttonName}</Button>
       </Header>

@@ -15,12 +15,24 @@ export const customStyleButton: ICustomStyleButton = {
   shape: 'round',
   style: {
     border: 'none',
+    margin: '0 5px',
+    
+
   },
 };
+export const blackText:CSSProperties ={
+  color: 'black'
+} ;
 // ------colors-------
 export const gray:CSSProperties ={
   backgroundColor: grey[0]
 } ;
 export const limeColor:CSSProperties ={
   backgroundColor: lime[7]
+} ;
+export const whiteColor:CSSProperties ={
+  backgroundColor: 'white'
+} ;
+export const redColor:CSSProperties ={
+  backgroundColor: 'red'
 } ;

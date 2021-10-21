@@ -7,15 +7,15 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import 'antd/dist/antd.css';
 import {
-  BrowserRouter as Router,
+  BrowserRouter as Router, HashRouter
 } from "react-router-dom";
 
 ReactDOM.render(
-  <Router >
+  <HashRouter >
     <Provider store={store}>
     <App />
   </Provider>
-  </Router>
+  </HashRouter>
   
   ,
   document.getElementById('root')

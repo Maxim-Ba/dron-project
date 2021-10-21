@@ -12,7 +12,10 @@ export enum customButtonsStyleType {
   refresh = "refresh",
   print = "print",
   show = "Показать",
-  create = "Создать"
+  create = "Создать",
+  admin="Админка",
+  options="Настройки",
+  graph="Графики"
 
 }
 export interface IButtonStyleType {
@@ -28,5 +31,6 @@ export interface ICustomStyleButton {
     backgroundColor?: string,
     width?: string
     color?: 'black' | 'white'
+    margin?: '0 5px'
   },
 }

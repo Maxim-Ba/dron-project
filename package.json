@@ -2,6 +2,8 @@
   "name": "dron-project",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
+  
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.7.0",
@@ -30,6 +32,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

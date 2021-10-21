@@ -61,13 +61,17 @@
   transition: transform .3s ease-out;
   margin-top: 64px;
   padding-top: 5px;
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
 }
 .order-creation__section{
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   width: 100vw;
+}
+.order-creation__section_j-c-center{
+  justify-content: flex-start;
+  
 }
 .order-creation__item{
   text-align: center;
@@ -79,4 +83,35 @@
   position: fixed;
   z-index: 1;
   width: 100%;
+}
+.order-creation__button-wrapper{
+  display: flex;
+  justify-content: space-around;
+  padding: 0 5px;
+}
+.order-creation__navlink{
+  width: 50%;
+  margin: 0 5px;
+}
+.add-button{
+  margin: 5px auto;
+
+}
+.raw-material-item{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 9px;
+}
+.custom-input{
+  max-width: 110px;
+}
+.raw-material-item__delete-btn{
+}
+.order-view__general-list-row{
+  margin-top: 50px;
+}
+.admin{
+  margin-top: 64px;
+  background-color: white;
+  padding: 0 5px;
 }
