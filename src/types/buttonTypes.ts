@@ -15,7 +15,11 @@ export enum customButtonsStyleType {
   create = "Создать",
   admin="Админка",
   options="Настройки",
-  graph="Графики"
+  graph="Графики",
+  clients="Редактировать БД клиентов",
+  rawMaterials="Редактировать БД сырья",
+  price="Редактировать БД прайса",
+  save="Сохранить"
 
 }
 export interface IButtonStyleType {

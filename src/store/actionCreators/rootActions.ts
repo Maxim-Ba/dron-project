@@ -1,10 +1,10 @@
-import * as ClientActionCreaors from './clientActions';
 import * as OrderCreationActionCreaors from './orderCreationActions';
 import * as ViewOrderActionCreaors from './veiwOrderActions';
+import * as OptionActionCreaors from './optionActions';
 
 
 export default {
-  ...ClientActionCreaors,
   ...OrderCreationActionCreaors,
   ...ViewOrderActionCreaors,
+  ...OptionActionCreaors,
 };

@@ -16,8 +16,8 @@ const RawMaterialItem: FunctionComponent<RawMaterialItemProps> = ({ index }: Raw
   
   const { removeRawMaterial } = useActions()
 
-  const rawMaterialList = useTypedSelector(state => state.orderCreation.rawMaterialList)
-
+  const {rawMaterialList} = useTypedSelector(state => state.orderCreation)
+  const currentRawMaterial = rawMaterialList[index];
   const [isVisible, setIsVisible] = useState(false)
 
   const styleDeleteButton: CSSProperties = {
@@ -38,8 +38,8 @@ const RawMaterialItem: FunctionComponent<RawMaterialItemProps> = ({ index }: Raw
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
     >
-      <CustomCascader defaultValue={''} />
-      <CustomInput />
+      <CustomCascader defaultValue={currentRawMaterial.name} />
+      <CustomInput amount={currentRawMaterial.amount} index={index} name={currentRawMaterial.name}/>
       <Button
         shape={"circle"}
         style={styleDeleteButton}

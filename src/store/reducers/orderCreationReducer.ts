@@ -2,6 +2,7 @@ import {
   IOrderCreationState,
   OrderCreationAction,
   orderCreationTypes,
+  rawMaterial
 } from "../../types/orderCreationTypes";
 
 const initialState: IOrderCreationState = {
@@ -29,7 +30,12 @@ export const orderCreationReducer = (
     case orderCreationTypes.SET_RAW_MATERIAL:
       return {
         ...state, rawMaterialList:
-           [...state.rawMaterialList, action.payload]
+        state.rawMaterialList.map((rawMaterial: rawMaterial, index: number) => {
+          if (index === action.payload.index) {
+            return {name:action.payload.name, amount:action.payload.amount}
+          }
+          return rawMaterial
+      })
       };
     case orderCreationTypes.ADD_RAW_MATERIAL:
       return {
@@ -37,11 +43,12 @@ export const orderCreationReducer = (
            [...state.rawMaterialList, {name:'',amount:0}]
       };
     case orderCreationTypes.REMOVE_RAW_MATERIAL:
+      const returnedArray = 
+        [...state.rawMaterialList.slice(0,action.payload.index),
+          ...state.rawMaterialList.slice(action.payload.index+1,)
+        ]
       return {
-        ...state, rawMaterialList:
-          state.rawMaterialList.filter((rawMaterial: any, index: number) => {
-              return index !== action.payload.index
-          })
+        ...state, rawMaterialList: [...returnedArray]
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-interface rawMaterial {
+export interface rawMaterial {
   name:string,
   amount:number
 }
@@ -41,7 +41,7 @@ interface IAddRawMaterialAction {
 }
 interface ISetRawMaterialAction {
   type: orderCreationTypes.SET_RAW_MATERIAL,
-  payload: rawMaterial
+  payload: {amount:number,name:string, index:number}
 }
 interface IRemoveRawMaterialAction {
   type: orderCreationTypes.REMOVE_RAW_MATERIAL,

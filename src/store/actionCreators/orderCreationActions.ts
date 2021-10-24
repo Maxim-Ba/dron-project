@@ -36,13 +36,14 @@ export const setOnLeft = () =>{
         });
     };
   };
-  export const setRawMaterial = (name:string, amount:number) =>{
+  export const setRawMaterial = (name:string, amount:number, index:number) =>{
     return async (dispatch:Dispatch<OrderCreationAction>)=>{
         dispatch({
-          type:orderCreationTypes.ADD_RAW_MATERIAL,
+          type:orderCreationTypes.SET_RAW_MATERIAL,
           payload:{
             name,
-            amount
+            amount,
+            index
           }
         });
     };

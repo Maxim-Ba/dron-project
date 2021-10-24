@@ -15,7 +15,7 @@ export const customStyleButton: ICustomStyleButton = {
   shape: 'round',
   style: {
     border: 'none',
-    margin: '0 5px',
+    margin: undefined,
     
 
   },

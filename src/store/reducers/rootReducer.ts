@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-import { clientReducer } from "./clientReducer";
+import { optionReducer } from "./optionsReducer";
 import { orderCreationReducer } from "./orderCreationReducer";
 import { viewOrderReducer } from "./orderViewReducer";
 
 export const rootReducer = combineReducers({
-  client: clientReducer,
   orderCreation: orderCreationReducer,
-  viewOrder: viewOrderReducer
+  viewOrder: viewOrderReducer,
+  options: optionReducer,
 
 });
 

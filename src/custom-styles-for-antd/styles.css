@@ -2,11 +2,11 @@
   padding: 0 !important;
 }
 .footer {
-  position: 'fixed'  !important;
-  z-index: 1  !important;
-  width: '100%'  !important;
-  bottom: 0  !important;
-  padding: 0  !important;
+  position: 'fixed';
+  z-index: 1;
+  width: '100%';
+  bottom: 0;
+  padding: 16px 0;
 }
 .order-manager{
 
@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   min-height: 190px;
-  padding: 10px;
+  padding: 5px;
   justify-content: flex-start;
   margin-top: 64px;
   min-height: 100vh;
@@ -112,6 +112,31 @@
 }
 .admin{
   margin-top: 64px;
-  background-color: white;
-  padding: 0 5px;
+  /* background-color: white; */
+  padding: 5px 5px 0;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+}
+.admin__button{
+  margin-bottom: 10px;
+}
+.options{
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 128px);
+  overflow-y: scroll;
+  margin-top: 64px;
+  padding: 5px 5px 0;
+
+}
+.options__radio-group{
+text-align: center;
+min-height: 47px;
+}
+.slider_red .ant-slider-track{
+  background-color: red;
+}
+.slider_green .ant-slider-track{
+  background-color: greenyellow;
 }
