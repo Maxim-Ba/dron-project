@@ -1,22 +1,26 @@
 import { Space, Input } from 'antd';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useActions } from '../hooks/useActions';
 
 interface CustomInputProps {
   amount: number,
   index: number,
-  name: string
 }
 
 
 
-const CustomInput: FunctionComponent<CustomInputProps> = ({ amount, index, name }: CustomInputProps) => {
+const CustomInput: FunctionComponent<CustomInputProps> = ({ amount, index }: CustomInputProps) => {
 
-  const { setRawMaterial } = useActions();
+  useEffect(()=>{
+    return ()=>{
+      amount = 0;
+    };
+  },[]);
+  const { setRawMaterialAmountOC } = useActions();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const amountToNumber = Number.parseInt(e.target.value);
-    setRawMaterial(name, amountToNumber, index);
+    setRawMaterialAmountOC( amountToNumber, index);
   };
 
   return (

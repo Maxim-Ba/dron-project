@@ -19,7 +19,11 @@ export enum customButtonsStyleType {
   clients="Редактировать БД клиентов",
   rawMaterials="Редактировать БД сырья",
   price="Редактировать БД прайса",
-  save="Сохранить"
+  save="Сохранить",
+  login="Вход",
+  registration="Регистрация"
+
+  
 
 }
 export interface IButtonStyleType {

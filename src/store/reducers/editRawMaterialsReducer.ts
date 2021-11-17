@@ -6,9 +6,7 @@ import {
 
 const initialState: IEditRawMaterialsState = {
   rawMaterialsList: [
-    { id: 1, name: "govno1" },
-    { id: 2, name: "govno2" },
-    { id: 3, name: "govno3" },
+
   ],
 };
 
@@ -28,7 +26,7 @@ export const editRawMaterialsReducer = (
     case editRawMaterialsActionsTypes.GET:
       return {
         ...state,
-        rawMaterialsList: action.payload,
+        rawMaterialsList:[ ...action.payload],
       };
     case editRawMaterialsActionsTypes.CHANGE:
       return {

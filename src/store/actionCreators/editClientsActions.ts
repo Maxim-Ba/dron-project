@@ -1,53 +1,71 @@
 import { Dispatch } from "redux";
 import {
   clientActionsTypes,
-  ClientType,
   EditClientsActions,
 } from "../../types/editClientsTypes";
 
-export const deleteClient = (id: number) => {
+
+
+export const getClients = (clients: any) => {
   return async (dispatch: Dispatch<EditClientsActions>) => {
-    // fetch delete
-    const fetchResult = { id: 2 };
-    dispatch({ type: clientActionsTypes.DELETE, payload: fetchResult });
+    
+    dispatch({ type: clientActionsTypes.GET, payload: clients });
   };
 };
 
-export const createClient = ({ INN, id, name, phon }: ClientType) => {
+export const setClientNames = (name: string) => {
   return async (dispatch: Dispatch<EditClientsActions>) => {
-    // fetch post
-    const fetchResult: ClientType = {
-      name: "asd222asd",
-      id: 7,
-      phon: 234,
-      INN: 7722213123,
-      extraInformation: "",
-    };
-    dispatch({ type: clientActionsTypes.CREATE, payload: fetchResult });
+    
+    dispatch({ type: clientActionsTypes.SET_NAME_CLIENT, payload: name });
   };
 };
 
-export const changeClient = ({ INN, id, name, phon }: ClientType) => {
+export const setClientINN = (inn: number | null) => {
   return async (dispatch: Dispatch<EditClientsActions>) => {
-    // fetch put
-    const fetchResult = {
-      name: "asd222asd",
-      id: 7,
-      phon: 234,
-      INN: 7722213123,
-      extraInformation:"string"
-    };
-    dispatch({ type: clientActionsTypes.CHANGE, payload: fetchResult });
+    
+    dispatch({ type: clientActionsTypes.SET_INN_CLIENT, payload: inn });
   };
 };
 
-export const getClient = () => {
+export const setClientPhone = (phone: number | null) => {
   return async (dispatch: Dispatch<EditClientsActions>) => {
-    // fetch get
-    const fetchResult = [
-      { name: "asd222asd", id: 7, phon: 234, INN: 7722213123, extraInformation:"string"
-    },
-    ];
-    dispatch({ type: clientActionsTypes.GET, payload: fetchResult });
+    
+    dispatch({ type: clientActionsTypes.SET_PHONE_CLIENT, payload: phone });
+  };
+};
+
+export const selectClient = (index: number| null) => {
+  return async (dispatch: Dispatch<EditClientsActions>) => {
+    
+    dispatch({ type: clientActionsTypes.SELECT_CLIENT, payload: index });
+  };
+};
+
+
+export const setClientNamesForChange = (name: string) => {
+  return async (dispatch: Dispatch<EditClientsActions>) => {
+    
+    dispatch({ type: clientActionsTypes.SET_NAME_CLIENT_FOR_CHANGE, payload: name });
+  };
+};
+
+export const setClientINNForChange = (inn: number | null) => {
+  return async (dispatch: Dispatch<EditClientsActions>) => {
+    
+    dispatch({ type: clientActionsTypes.SET_INN_CLIENT_FOR_CHANGE, payload: inn });
+  };
+};
+
+export const setClientPhoneForChange = (phone: number | null) => {
+  return async (dispatch: Dispatch<EditClientsActions>) => {
+    
+    dispatch({ type: clientActionsTypes.SET_PHONE_CLIENT_FOR_CHANGE, payload: phone });
+  };
+};
+
+export const readyForDeleteClient = (flag : boolean ) => {
+  return async (dispatch: Dispatch<EditClientsActions>) => {
+    
+    dispatch({ type: clientActionsTypes.READY_FOR_DELETE, payload: flag });
   };
 };

@@ -3,9 +3,9 @@ import { IOptionStateType } from "../../types/optionsTypes";
 
 const initialState: IOptionStateType = {
   generalBackground: {
-    blue: 234,
-    red: 23,
-    green: 234,
+    blue: 166,
+    red: 166,
+    green: 166,
   },
   backBackgroundBack: {
     blue: 255,
@@ -18,9 +18,9 @@ const initialState: IOptionStateType = {
     green: 140,
   },
   backBackgroundFooter: {
-    blue: 234,
-    red: 23,
-    green: 234,
+    blue: 166,
+    red: 166,
+    green: 166,
   },
   backBackgroundHeader: {
     blue: 41,
@@ -54,9 +54,9 @@ const initialState: IOptionStateType = {
   },
   darkTheme: {
     generalBackground: {
-      blue: 234,
-      red: 23,
-      green: 234,
+      blue: 45,
+      red: 45,
+      green: 45,
     },
     backBackgroundBack: {
       blue: 234,
@@ -69,19 +69,19 @@ const initialState: IOptionStateType = {
       green: 234,
     },
     backBackgroundFooter: {
-      blue: 234,
-      red: 23,
-      green: 234,
+      blue: 45,
+      red: 45,
+      green: 45,
     },
     backBackgroundHeader: {
-      blue: 234,
-      red: 23,
-      green: 234,
+      blue: 45,
+      red: 45,
+      green: 45,
     },
     backBackgroundNext: {
-      blue: 234,
-      red: 23,
-      green: 234,
+      blue: 255,
+      red: 70,
+      green: 255,
     },
     btnColorBack: {
       blue: 0,
@@ -89,9 +89,9 @@ const initialState: IOptionStateType = {
       green: 0,
     },
     btnColorBig: {
-      blue: 255,
-      red: 255,
-      green: 255,
+      blue: 0,
+      red: 0,
+      green: 0,
     },
     btnColorNext: {
       blue: 0,

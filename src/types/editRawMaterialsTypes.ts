@@ -7,7 +7,8 @@ export interface IEditRawMaterialsState {
 }
 
 export enum editRawMaterialsActionsTypes{
-    GET="GET",
+    GET="GET_MATERIALS",
+    GET_ONE_MATERIAL="GET_ONE_MATERIAL",
     CREATE="CREATE",
     CHANGE="CHANGE",
     DELETE="DELETE"

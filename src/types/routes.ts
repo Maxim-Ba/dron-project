@@ -8,4 +8,6 @@ export enum routesEnum {
   OPTIONS="/options",
   ORDER_MANAGER="/",
   GRAPH='/GRAPH',
+  LOGIN='/LOGIN',
+  REGISTRATION='/REGISTRATION',
 }

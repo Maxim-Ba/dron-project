@@ -5,9 +5,10 @@ import CustomButton from "../CustomButton";
 import Header from "../Header/Header";
 import { grey, lime } from '@ant-design/colors';
 import { customStyleButton, gray } from "../../custom-styles-for-antd/styleVariables";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { generateCSSColor } from "../../utils/generateCSSColor";
+import { routesEnum } from "../../types/routes";
 
 interface OrderManagerProps {
 
@@ -20,6 +21,11 @@ const OrderManager: FunctionComponent<OrderManagerProps> = () => {
     generalBackground,
     generalColor,
   } = useTypedSelector(state=>state.options);
+
+  const {
+    id
+  } = useTypedSelector(state => state.user);
+  
   return (
     <Layout 
       className='order-manager' 
@@ -28,6 +34,8 @@ const OrderManager: FunctionComponent<OrderManagerProps> = () => {
         color: generateCSSColor(generalColor)}
       }
     >
+            {!id&&<Redirect to={routesEnum.LOGIN}/>}
+
       <Header buttonName={customButtonsStyleType.orderManager}/>
       <div 
       style={

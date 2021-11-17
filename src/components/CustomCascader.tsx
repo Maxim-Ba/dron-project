@@ -2,55 +2,64 @@ import { Cascader } from "antd";
 import { CascaderOptionType, CascaderValueType } from "antd/lib/cascader";
 import { FunctionComponent } from "react";
 import { ArrowDownOutlined } from '@ant-design/icons';
+import { useActions } from "../hooks/useActions";
+import { CascaderTypes } from "../types/customCascaderTypes";
 
 interface CustomCascaderProps {
   defaultValue: string
+  options: CascaderOptionType[]
+  setCallback?: any
+  clearCallback?: any
+  typeCascader?: CascaderTypes
+  index?:number 
 }
-const options: CascaderOptionType[] = [
-  {
-    value: 'OOO',
-    label: 'OOO',
-    children: [
-      {
-        value: 'Заглушка',
-        label: 'Hangzhouadsadsasdasdasdasdasdasdasd',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-          {
-            value: 'xiasha',
-            label: 'Xia Sha',
-            disabled: false,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'ИП',
-    label: 'ИП',
-    children: [
-      {
-        value: '---',
-        label: '----',
-        children: [
-        ],
-      },
-    ],
-  },
-];
 
-function onChange(value: CascaderValueType, selectedOptions: CascaderOptionType[] | undefined) {
-  console.log(value, selectedOptions);
-}
+
+
 
 function filter(inputValue: string, path: CascaderOptionType[] | any): boolean {
   return path.some((option: any) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
 }
 
-const CustomCascader: FunctionComponent<CustomCascaderProps> = ({ defaultValue }: CustomCascaderProps) => {
+
+const CustomCascader: FunctionComponent<CustomCascaderProps> = ({
+  defaultValue,
+  options,
+  typeCascader,
+  index
+}: CustomCascaderProps) => {
+
+  const {
+    removeClientOrderCreation,
+    removePriceOrderCreation,
+    setClientOrderCreation,
+    setPriceOrderCreation,
+    setRawMaterialNameOC,
+    removeRawMaterialName
+  } = useActions();
+
+
+
+  function onChange(value: CascaderValueType, selectedOptions: CascaderOptionType[] | undefined) {
+
+    if (selectedOptions !== undefined) {
+      switch (typeCascader) {
+        case CascaderTypes.SET_CLIENT_ORDER_CREATION:
+          if (selectedOptions[0] === undefined) return removeClientOrderCreation();
+          return setClientOrderCreation(value[0], selectedOptions[0].label);
+        case CascaderTypes.SET_PRICE_ORDER_CREATION:
+          if (selectedOptions[0] === undefined) return removePriceOrderCreation();
+          return setPriceOrderCreation(value[0], selectedOptions[0].label);
+        case CascaderTypes.SET_MATERIAL:
+          if (selectedOptions[0] === undefined) return removeRawMaterialName(index as number);
+          return setRawMaterialNameOC( selectedOptions[0].label, index ,value[0], );
+        default:
+          break;
+      }
+    }
+  }
+
+
   return (
     <Cascader
       options={options}
@@ -61,10 +70,12 @@ const CustomCascader: FunctionComponent<CustomCascaderProps> = ({ defaultValue }
       defaultValue={[defaultValue]}
       displayRender={label => label.join(' ')}
       notFoundContent={'Таков нетъ'}
-      suffixIcon= {<ArrowDownOutlined />}
-
+      suffixIcon={<ArrowDownOutlined />}
+      value={[defaultValue]}
     />
   );
 };
 
 export default CustomCascader;
+
+

@@ -198,7 +198,7 @@ const Options: FunctionComponent<OptionsProps> = () => {
                   style={{
                     color: generateCSSColor(generalColor)
                   }}
-                  orientation="left">Цвет большой кнопки</Divider>
+                  orientation="left">Цвет текста большой кнопки</Divider>
           <div>
           <ColorSliders 
             red={btnColorBig.red}
@@ -207,7 +207,12 @@ const Options: FunctionComponent<OptionsProps> = () => {
             callback={installColorBigBtn}  />
           </div>
 
-          <Divider orientation="left">Темы по умолчанию</Divider>
+          <Divider
+            orientation="left"
+            style={{
+              color: generateCSSColor(generalColor)
+            }}
+          >Темы по умолчанию</Divider>
           <Radio.Group 
             defaultValue={setDefaultValueRadioBtn()}
             buttonStyle="solid" 

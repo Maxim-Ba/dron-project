@@ -1,9 +1,11 @@
 import { Button, Col, Row } from "antd";
-import { CSSProperties, FunctionComponent, useEffect } from "react";
+import { CSSProperties, FunctionComponent, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import clientsAPI from "../../backendAPI/clientsAPI";
 import { customStyleButton, gray } from "../../custom-styles-for-antd/styleVariables";
 import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { getClients } from "../../store/actionCreators/editClientsActions";
 import { customButtonsStyleType } from "../../types/buttonTypes";
 import { routesEnum } from "../../types/routes";
 import { generateCSSColor } from "../../utils/generateCSSColor";
@@ -33,7 +35,19 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
     generalBackground,
     generalColor,
   } = useTypedSelector(state => state.options);
+
+
+  const handleGetClients = async () => {
+    // isFetch
+    const data = await clientsAPI.getClients();
+    getClients(data);
+    // isFetch
+  };
+
+
+
   useEffect(function () {
+    handleGetClients();
     return () => { setOnLeftOrderViev(); };
   }, []);
 
@@ -55,7 +69,7 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
 
           <Row gutter={[0, 16]} justify='center' align="top">
             <Col span={24} className="order-creation__item">
-              <CustomCascader defaultValue={""} />
+              <CustomCascader defaultValue={""} options={[]} />
             </Col>
 
             <Col span={24} className="order-creation__item">

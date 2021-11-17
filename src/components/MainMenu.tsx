@@ -2,11 +2,15 @@ import { Menu } from "antd";
 import React, { CSSProperties, FunctionComponent } from "react";
 import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 import { routesEnum } from "../types/routes";
+
+
 interface MainMenuProps {
   collapsed: boolean
   onClick: () => void
 }
+
 const menuStyle: CSSProperties = {
   position: 'fixed',
   top: 64,
@@ -15,8 +19,10 @@ const menuStyle: CSSProperties = {
   paddingLeft: 5,
   paddingBottom: 10
 };
+
 const MainMenu: FunctionComponent<MainMenuProps> = ({ collapsed, onClick }: MainMenuProps) => {
   let location = useLocation();
+
   return (
     <div className="menu-wrapper">
       {collapsed && <div className="main-menu">

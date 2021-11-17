@@ -1,6 +1,6 @@
 import { Button, Layout } from "antd";
 import { FunctionComponent, useState } from "react";
-import { customStyleButton, limeColor } from "../../custom-styles-for-antd/styleVariables";
+import { customStyleButton } from "../../custom-styles-for-antd/styleVariables";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { customButtonsStyleType } from "../../types/buttonTypes";
 import { generateCSSColor } from "../../utils/generateCSSColor";

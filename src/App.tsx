@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useEffect } from 'react';
 import './custom-styles-for-antd/styles.css';
 
 import { Route, Switch } from 'react-router';
@@ -11,32 +11,54 @@ import { routesEnum } from './types/routes';
 import Graph from './components/contentNodes/Graph';
 import EditRawMaterials from './components/AdminsEditing/EditRawMaterials';
 import EditPrice from './components/AdminsEditing/EditPrice';
-import EditClients from './components/AdminsEditing/EditClients';
+import EditClients from './components/AdminsEditing/ClientEditing/EditClients';
 import { useTypedSelector } from './hooks/useTypedSelector';
 import { generateCSSColor } from './utils/generateCSSColor';
+import usersAPI from './backendAPI/usersAPI';
+import RegistrationCN from './components/contentNodes/RegistrationCN';
+import LoginCN from './components/contentNodes/LoginCN';
+import { useActions } from './hooks/useActions';
 
 const mainStyle: CSSProperties = {
 
   width: '100vw',
-  overflowX:'hidden',
+  overflowX: 'hidden',
 };
 
 function App() {
   const {
     generalBackground,
     generalColor,
-  } = useTypedSelector(state=>state.options);
+  } = useTypedSelector(state => state.options);
+
+  const {setUser, setIsFetching} = useActions();
+  // const {isFetching } = useTypedSelector(state=>state.user);
+
+  const handleAuth = async() =>{
+    setIsFetching(true);
+    const data  = await usersAPI.auth();
+    setUser(data?.id, data?.email, data?.role);
+    setIsFetching(false);
+  };
+
+  useEffect(
+    () => {
+      handleAuth();
+    },
+    []
+  );
 
   return (
-    <main 
+    <main
       style={{
-        ...mainStyle, 
-        backgroundColor: generateCSSColor(generalBackground), 
+        ...mainStyle,
+        backgroundColor: generateCSSColor(generalBackground),
         color: generateCSSColor(generalColor)
-        }}
+      }}
     >
-      <Switch>
 
+      <Switch>
+    
         <Route path={routesEnum.ORDER_CREATION} exact>
           <OrderCreationCN />
         </Route>
@@ -69,10 +91,19 @@ function App() {
           <Graph />
         </Route>
 
+        <Route path={routesEnum.LOGIN} exact>
+          <LoginCN />
+        </Route>
+
+        <Route path={routesEnum.REGISTRATION} exact>
+          <RegistrationCN />
+        </Route>
+
         <Route path={routesEnum.ORDER_MANAGER}>
           <OrderManager />
         </Route>
-        
+
+
       </Switch>
     </main>
   );

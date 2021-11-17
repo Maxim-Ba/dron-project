@@ -1,26 +1,33 @@
-import React, { FunctionComponent } from "react";
-import { DatePicker, Space } from "antd";
+import React, { FunctionComponent, useEffect } from "react";
+import { DatePicker } from "antd";
 import moment from 'moment';
 import 'moment/locale/ru';
 
 import locale from 'antd/es/date-picker/locale/ru_RU';
+import { useActions } from "../hooks/useActions";
 
 
 interface CustomDatePickerProps {
   props: any
 }
 
-function onChange(date: moment.Moment | null, dateString: string) {
-  console.log(date);
-  console.log( dateString);
-}
+const CustomDatePicker: FunctionComponent<CustomDatePickerProps> = ({ props }: CustomDatePickerProps) => {
 
-const CustomDatePicker: FunctionComponent<CustomDatePickerProps> = ({props}:CustomDatePickerProps) => {
+  const { clearDateOrderCreation, setDateOrderCreation } = useActions();
 
+
+  function onChange(date: moment.Moment | null, dateString: string) {
+    console.log(dateString);
+    setDateOrderCreation(dateString);
+  }
+  useEffect(() => {
+    return ()=>{
+      clearDateOrderCreation();
+    //clearDateOrderView
+    } ;
+  }, []);
   return (
-    // <Space direction="vertical">
-      <DatePicker onChange={onChange} locale={locale} style={props.width}/>
-    // {/* </Space> */}
+    <DatePicker onChange={onChange} locale={locale} style={props.width} />
   );
 };
 

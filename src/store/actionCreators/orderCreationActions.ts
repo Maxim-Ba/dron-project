@@ -36,12 +36,23 @@ export const setOnLeft = () =>{
         });
     };
   };
-  export const setRawMaterial = (name:string, amount:number, index:number) =>{
+  export const setRawMaterialNameOC = (name:any,  index:any, id:any) =>{
     return async (dispatch:Dispatch<OrderCreationAction>)=>{
         dispatch({
-          type:orderCreationTypes.SET_RAW_MATERIAL,
+          type:orderCreationTypes.SET_RAW_MATERIAL_NAME,
           payload:{
             name,
+            index,
+            id
+          }
+        });
+    };
+  };
+  export const setRawMaterialAmountOC = (amount:any, index:any) =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.SET_RAW_MATERIAL_AMOUNT,
+          payload:{
             amount,
             index
           }
@@ -53,6 +64,71 @@ export const setOnLeft = () =>{
         dispatch({
           type:orderCreationTypes.REMOVE_RAW_MATERIAL,
           payload:{index}
+        });
+    };
+  };
+  export const removeRawMaterialName = (index:number) =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.REMOVE_RAW_MATERIAL_NAME,
+          payload:{index}
+        });
+    };
+  };
+  export const removePriceOrderCreation = () =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.REMOVE_PRICE,
+        });
+    };
+  };
+
+  export const setPriceOrderCreation = (id: any, name:any) =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.SET_PRICE,
+          payload: {
+            id,
+            name
+          }
+        });
+    };
+  };
+
+  export const removeClientOrderCreation = () =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.REMOVE_CLIENT,
+        });
+    };
+  };
+
+  
+  export const setClientOrderCreation = (id: any, name:any) =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.SET_CLIENT,
+          payload: {
+            id,
+            name
+          }
+        });
+    };
+  };
+
+  export const clearDateOrderCreation = () =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.CLEAR_DATE,
+        });
+    };
+  };
+
+  export const setDateOrderCreation = (date:Date | string) =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.SET_DATE,
+          payload: date
         });
     };
   };

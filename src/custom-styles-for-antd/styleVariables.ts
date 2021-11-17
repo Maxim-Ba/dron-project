@@ -16,8 +16,6 @@ export const customStyleButton: ICustomStyleButton = {
   style: {
     border: 'none',
     margin: undefined,
-    
-
   },
 };
 export const blackText:CSSProperties ={
