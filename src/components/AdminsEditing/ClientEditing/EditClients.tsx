@@ -187,19 +187,7 @@ const EditClients: FunctionComponent<EditClientsProps> = () => {
               {true ? customButtonsStyleType.back : customButtonsStyleType.cancel}
             </Button>
           </NavLink>
-          {/* <div className="order-creation__navlink">
-            <Button
-              block={block}
-              type={type}
-              shape={shape}
-              style={style}
-              disabled={true}
-            >
-              {customButtonsStyleType.next}
-            </Button>
-          </div> */}
-
-
+          
         </div>
       </Footer>
     </>

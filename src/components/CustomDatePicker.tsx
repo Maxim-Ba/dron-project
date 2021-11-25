@@ -23,11 +23,15 @@ const CustomDatePicker: FunctionComponent<CustomDatePickerProps> = ({ props }: C
   useEffect(() => {
     return ()=>{
       clearDateOrderCreation();
-    //clearDateOrderView
     } ;
   }, []);
   return (
-    <DatePicker onChange={onChange} locale={locale} style={props.width} />
+    <DatePicker 
+      // format={'DD/MM/YYYY'}
+      onChange={onChange} 
+      locale={locale} 
+      style={props.width} 
+    />
   );
 };
 

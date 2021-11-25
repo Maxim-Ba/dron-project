@@ -9,8 +9,8 @@ import AdminCN from './components/contentNodes/AdminCN';
 import Options from './components/contentNodes/Options';
 import { routesEnum } from './types/routes';
 import Graph from './components/contentNodes/Graph';
-import EditRawMaterials from './components/AdminsEditing/EditRawMaterials';
-import EditPrice from './components/AdminsEditing/EditPrice';
+import EditRawMaterials from './components/AdminsEditing/RawMaterialEditing/EditRawMaterials';
+import EditPrice from './components/AdminsEditing/PriceEditing/EditPrice';
 import EditClients from './components/AdminsEditing/ClientEditing/EditClients';
 import { useTypedSelector } from './hooks/useTypedSelector';
 import { generateCSSColor } from './utils/generateCSSColor';
@@ -20,7 +20,6 @@ import LoginCN from './components/contentNodes/LoginCN';
 import { useActions } from './hooks/useActions';
 
 const mainStyle: CSSProperties = {
-
   width: '100vw',
   overflowX: 'hidden',
 };

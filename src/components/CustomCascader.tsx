@@ -35,13 +35,13 @@ const CustomCascader: FunctionComponent<CustomCascaderProps> = ({
     setClientOrderCreation,
     setPriceOrderCreation,
     setRawMaterialNameOC,
-    removeRawMaterialName
+    removeRawMaterialName,
+    selectClientVO,
   } = useActions();
 
 
 
   function onChange(value: CascaderValueType, selectedOptions: CascaderOptionType[] | undefined) {
-
     if (selectedOptions !== undefined) {
       switch (typeCascader) {
         case CascaderTypes.SET_CLIENT_ORDER_CREATION:
@@ -53,6 +53,9 @@ const CustomCascader: FunctionComponent<CustomCascaderProps> = ({
         case CascaderTypes.SET_MATERIAL:
           if (selectedOptions[0] === undefined) return removeRawMaterialName(index as number);
           return setRawMaterialNameOC( selectedOptions[0].label, index ,value[0], );
+          case CascaderTypes.SET_ORDER_VIEW:
+            if (selectedOptions[0] === undefined) return selectClientVO(null);
+            return selectClientVO({id:value[0] as number, name:selectedOptions[0].label as string});
         default:
           break;
       }

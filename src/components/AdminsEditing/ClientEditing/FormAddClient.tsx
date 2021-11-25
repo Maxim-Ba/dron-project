@@ -28,7 +28,7 @@ const FormAddClient: FunctionComponent<FormAddClientProps> = () => {
 
   return (
 
-    <Form>
+    <Form form={form}>
       <Form.Item name="name" label="Название" rules={[{ required: true }]}>
         <Input 
           onChange={(e)=>handleChangeName(e)}

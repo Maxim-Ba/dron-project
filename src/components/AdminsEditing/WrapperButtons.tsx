@@ -19,12 +19,10 @@ const WrapperButtons: FunctionComponent<WrapperButtonsProps> = ({ buttons }) => 
         ? <UpSquareOutlined style={{ fontSize: '20px' }} />
         : <MenuOutlined style={{ fontSize: '20px' }} />
       }
-
     >
       <Panel header={''} key="1"
         className="client_panel"
       >
-
         {buttons}
       </Panel>
 

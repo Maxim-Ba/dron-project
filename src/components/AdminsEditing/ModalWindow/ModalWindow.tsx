@@ -1,9 +1,13 @@
 import { Modal } from "antd";
 import { FunctionComponent, ReactNode, useEffect } from "react";
 import clientsAPI from "../../../backendAPI/clientsAPI";
+import priceAPI from "../../../backendAPI/priceAPI";
+import rawMaterialAPI from "../../../backendAPI/rawMaterialAPI";
 import { useActions } from "../../../hooks/useActions";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
+import { rawMaterial } from "../../../types/editRawMaterialsTypes";
 import { TypeMV, TypesofMW } from "../../../types/ModalWindowTypes/ModalWindowTypes";
+import { checkAllvaluesIsNotNull } from "../../../utils/checkAllvaluesIsNotNull";
 
 interface ModlWindowProps {
   children: ReactNode,
@@ -15,10 +19,20 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
 
   const { setVisibleMW, setConfirmLoadingMW, getClients,
     setClientNames, setClientINN, setClientPhone,
-    setClientNamesForChange, setClientINNForChange, setClientPhoneForChange
+    setClientNamesForChange, setClientINNForChange, setClientPhoneForChange,
+    getRawMaterials,
+    setMaterialName, setMaterialUnit, selectMaterial,
+    getPriceNames, setNameForCreation, readyForDeletePrice, selectPriceNames, arrayForChangePrice, readyForChangePrice,
   } = useActions();
   const { confirmLoading, visible } = useTypedSelector(state => state.modalWindow);
   const { name, phone, inn } = useTypedSelector(state => state.clients.formFields);
+
+  const { name: nameMaterial, units } = useTypedSelector(state => state.rawMaterials.creationFields);
+  const { readyForDelete: readyForDeleteMaterial, materialSelected, valuesForChange } = useTypedSelector(state => state.rawMaterials);
+
+  const { fieldForCreationPrice, redyForDeletePrice, selectedPrice, readyForChange, arrayForChange } = useTypedSelector(state => state.price);
+
+
   const { name: nameForChange, phone: phoneForChange, inn: innForChange, id } = useTypedSelector(state => state.clients.selectedClientsFields);
   const { readyForDelete } = useTypedSelector(state => state.clients);
 
@@ -66,6 +80,83 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
             setClientPhoneForChange(null);
           }
           break;
+        case TypesofMW.RAW_MATERIALS_CREATE:
+          if (nameMaterial && units) {
+            const materials = await rawMaterialAPI.createRawMaterials(nameMaterial, units);
+            if (materials.name === "error") {
+              alert(materials.detail || "Ошибка");
+              break;
+            }
+            getRawMaterials(materials);
+            setVisibleMW(false);
+            setMaterialName('');
+            setMaterialUnit(null);
+          }
+          break;
+        case TypesofMW.RAW_MATERIALS_DELETE:
+          if (materialSelected) {
+            const materials = await rawMaterialAPI.deleteRawMaterials(materialSelected);
+            if (materials.name === "error") {
+              alert(materials.detail || "Ошибка");
+              break;
+            }
+            getRawMaterials(materials);
+            setVisibleMW(false);
+            selectMaterial(null);
+          }
+          break;
+        case TypesofMW.RAW_MATERIALS_CHANGE:
+
+          if (valuesForChange) {
+            console.log(valuesForChange, 'valuesForChange');
+
+            const materials = await rawMaterialAPI.changeRawMaterials(valuesForChange as rawMaterial);
+            if (materials.name === "error") {
+              alert(materials.detail || "Ошибка");
+              break;
+            }
+            getRawMaterials(materials);
+            setVisibleMW(false);
+          }
+          break;
+        case TypesofMW.PRICE_CREATE:
+          if (fieldForCreationPrice) {
+            const newPriceNames = await priceAPI.createPrice(fieldForCreationPrice);
+            if (newPriceNames.name === "error") {
+              alert(newPriceNames.detail || "Ошибка");
+              break;
+            }
+            getPriceNames(newPriceNames);
+            setVisibleMW(false);
+            setNameForCreation('');
+          }
+          break;
+        case TypesofMW.PRICE_DELETE:
+          if (selectedPrice) {
+            const priceNmaes = await priceAPI.deletePriceName(selectedPrice);
+            if (priceNmaes.name === "error") {
+              alert(priceNmaes.detail || "Ошибка");
+              break;
+            }
+            getPriceNames(priceNmaes);
+            setVisibleMW(false);
+            readyForDeletePrice(false);
+            selectPriceNames(null);
+          }
+          break;
+        case TypesofMW.PRICE_CHANGE:
+          if (arrayForChange) {
+            const price = await priceAPI.changePrice(arrayForChange);
+            if (price.name === "error") {
+              alert(price.detail || "Ошибка");
+              break;
+            }
+            selectPriceNames(null);
+            readyForChangePrice(false);
+            setVisibleMW(false);
+          }
+          break;
+
         default:
           break;
       }
@@ -84,7 +175,6 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     switch (type) {
       case TypesofMW.CLIENT_CREATE:
         setClientNames('');
@@ -92,7 +182,19 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
         setClientPhone(null);
         setVisibleMW(false);
         break;
+      case TypesofMW.RAW_MATERIALS_CREATE:
+        setMaterialName('');
+        setMaterialUnit(null);
+        setVisibleMW(false);
+        break;
+      case TypesofMW.PRICE_CREATE:
+        setNameForCreation('');
+        setVisibleMW(false);
+        break;
+        // case TypesofMW.PRICE_CHANGE:
+        //   setVisibleMW(false);
 
+        //   break;
       default:
         setVisibleMW(false);
     }
@@ -105,16 +207,32 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
         return { disabled: !name };
       case TypesofMW.CLIENT_CHANGE:
         return { disabled: !nameForChange };
-        case TypesofMW.CLIENT_DELETE:
-          return { disabled: !readyForDelete };
+      case TypesofMW.CLIENT_DELETE:
+        return { disabled: !readyForDelete };
+      case TypesofMW.RAW_MATERIALS_CREATE:
+        return { disabled: !nameMaterial && !units };
+      case TypesofMW.RAW_MATERIALS_DELETE:
+        return { disabled: !readyForDeleteMaterial };
+      case TypesofMW.PRICE_CREATE:
+        return { disabled: !fieldForCreationPrice };
+      case TypesofMW.PRICE_DELETE:
+        return { disabled: !redyForDeletePrice };
+      case TypesofMW.PRICE_CHANGE:
+        return { disabled: !readyForChange };
       default:
         return undefined;
     }
   };
-  useEffect(()=>{
-    return ()=>{setVisibleMW(false);};
 
-  },[]);
+  useEffect(() => {
+
+    return () => {
+
+      setVisibleMW(false);
+    };
+
+  }, []);
+
 
   return (
 

@@ -21,3 +21,27 @@ export const setOnRightOrderViev = () =>{
         dispatch({type:OrderViewActionTypes.SET_UNABLED_NEXT});
     };
   };
+  export const selectClientVO = (client:null | {id:number, name:string}) =>{
+    return async (dispatch:Dispatch<OrderViewActions>)=>{
+        dispatch({
+          type:OrderViewActionTypes.SELECT_CLIENT,
+          payload:client
+        });
+    };
+  };
+  export const selectDateStatrVO = (date: null | Date) =>{
+    return async (dispatch:Dispatch<OrderViewActions>)=>{
+        dispatch({
+          type:OrderViewActionTypes.SELECT_DATE_START,
+          payload: date
+        });
+    };
+  };
+  export const selectDateEndVO = (date: null | Date) =>{
+    return async (dispatch:Dispatch<OrderViewActions>)=>{
+        dispatch({
+          type:OrderViewActionTypes.SELECT_DATE_END,
+          payload: date
+        });
+    };
+  };

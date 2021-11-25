@@ -13,10 +13,17 @@ interface Price{
   name:string
 }
 
+export interface ICreateOrderAPI {
+  client: Client
+  price: Price
+  date: Date | null | string
+  rawMaterialList:Array<rawMaterial>
+}
+
 export interface IOrderCreationState {
-  isContentOnRight: boolean,
-  isNextBtnDisabled: boolean,
-  renderCreateButton: boolean,
+  isContentOnRight?: boolean,
+  isNextBtnDisabled?: boolean,
+  renderCreateButton?: boolean,
   rawMaterialList: Array<rawMaterial> ,
   client: Client | null,
   price: Price | null,

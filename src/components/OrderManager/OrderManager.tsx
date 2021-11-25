@@ -3,7 +3,6 @@ import { CSSProperties, FunctionComponent } from "react";
 import { customButtonsStyleType } from "../../types/buttonTypes";
 import CustomButton from "../CustomButton";
 import Header from "../Header/Header";
-import { grey, lime } from '@ant-design/colors';
 import { customStyleButton, gray } from "../../custom-styles-for-antd/styleVariables";
 import { NavLink, Redirect } from "react-router-dom";
 import { useTypedSelector } from "../../hooks/useTypedSelector";

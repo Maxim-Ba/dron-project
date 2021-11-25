@@ -1,16 +1,17 @@
-import { Button, Col, Row } from "antd";
-import { CSSProperties, FunctionComponent, useCallback, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Button, Col, DatePicker, Row } from "antd";
+import { CSSProperties, FunctionComponent, useEffect } from "react";
+import { NavLink, useHistory } from "react-router-dom";
 import clientsAPI from "../../backendAPI/clientsAPI";
-import { customStyleButton, gray } from "../../custom-styles-for-antd/styleVariables";
+import { customStyleButton } from "../../custom-styles-for-antd/styleVariables";
 import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { getClients } from "../../store/actionCreators/editClientsActions";
 import { customButtonsStyleType } from "../../types/buttonTypes";
+import { CascaderTypes } from "../../types/customCascaderTypes";
 import { routesEnum } from "../../types/routes";
 import { generateCSSColor } from "../../utils/generateCSSColor";
+import { useGenerateOptionCascaderClient } from "../../utils/generateOptionCascader";
 import CustomCascader from "../CustomCascader";
-import CustomDatePicker from "../CustomDatePicker";
+import CustomRangePicker from "../CustomRangePicker";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Table from "../Table";
@@ -25,8 +26,8 @@ const width: CSSProperties = {
 const { block, shape, style, type, } = customStyleButton;
 
 const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
-  const { setOnLeftOrderViev, setOnRightOrderViev } = useActions();
-  const { isDisabled, isOnRight } = useTypedSelector(state => state.viewOrder);
+  const { setOnLeftOrderViev, setOnRightOrderViev, getClients, selectDateStatrVO, selectDateEndVO, selectClientVO, setDisabledNextBtn, setUnaisabledNextBtn } = useActions();
+  const { isDisabled, isOnRight, selectedClient } = useTypedSelector(state => state.viewOrder);
   const {
     backBackgroundBack,
     backBackgroundNext,
@@ -35,22 +36,32 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
     generalBackground,
     generalColor,
   } = useTypedSelector(state => state.options);
+  const history = useHistory();
 
 
   const handleGetClients = async () => {
     // isFetch
     const data = await clientsAPI.getClients();
+    if (data.message) {
+      history.goBack();// redirect Login
+    }
     getClients(data);
     // isFetch
   };
 
-
+  useEffect(function () {
+    selectedClient ? setUnaisabledNextBtn() : setDisabledNextBtn();
+  }, [selectedClient]);
 
   useEffect(function () {
     handleGetClients();
-    return () => { setOnLeftOrderViev(); };
+    return () => {
+      selectClientVO(null);
+      setOnLeftOrderViev();
+      selectDateStatrVO(null);
+      selectDateEndVO(null);
+    };
   }, []);
-
 
   return (
     <>
@@ -69,29 +80,28 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
 
           <Row gutter={[0, 16]} justify='center' align="top">
             <Col span={24} className="order-creation__item">
-              <CustomCascader defaultValue={""} options={[]} />
+              <CustomCascader
+                defaultValue={selectedClient ? selectedClient.name : ''}
+                options={useGenerateOptionCascaderClient()}
+                typeCascader={CascaderTypes.SET_ORDER_VIEW}
+              />
             </Col>
 
             <Col span={24} className="order-creation__item">
-              <CustomDatePicker props={{ width: width }} />
+              <CustomRangePicker />
             </Col>
           </Row>
 
-          {/* сделать период по дате */}
           <Row gutter={[0, 16]} justify='center' align="top" className="order-view__general-list-row">
-
             <Col span={24} className="order-creation__item">
               <Button shape={shape} style={{ ...style, ...width }} type={type}>
                 Общий список
               </Button>
             </Col>
-
-            <Col span={24} className="order-creation__item">
-              <CustomDatePicker props={{ width: width }} />
-            </Col>
           </Row>
-
         </section>
+
+
         <section
           className="order-creation__section order-creation__section_j-c-center"
         >
@@ -116,22 +126,27 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
               {isOnRight ? customButtonsStyleType.back : customButtonsStyleType.cancel}
             </Button>
           </NavLink>
-          <div className="order-creation__navlink">
-            <Button
-              block={block}
-              type={type}
-              shape={shape}
-              style={{
-                ...style,
-                backgroundColor: generateCSSColor(backBackgroundNext),
-                color: generateCSSColor(btnColorNext)
-              }}
-              disabled={isDisabled}
-              onClick={isOnRight ? undefined : setOnRightOrderViev}
-            >
-              {customButtonsStyleType.show}
-            </Button>
-          </div>
+
+          {!isOnRight
+            ? <div className="order-creation__navlink">
+              <Button
+                block={block}
+                type={type}
+                shape={shape}
+                style={{
+                  ...style,
+                  backgroundColor: generateCSSColor(backBackgroundNext),
+                  color: generateCSSColor(btnColorNext),
+                  opacity: isDisabled ? 0.5 : 1
+                }}
+
+                disabled={isDisabled}
+                onClick={isOnRight ? undefined : setOnRightOrderViev}
+              >
+                {customButtonsStyleType.show}
+              </Button>
+            </div>
+            : null}
         </div>
       </Footer>
     </>

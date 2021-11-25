@@ -5,7 +5,7 @@ import { useTypedSelector } from '../../../hooks/useTypedSelector';
 
 
 
-interface ClientTableProps {
+interface PriceTableProps {
   dataTable:Array<any>
 }
 
@@ -15,32 +15,21 @@ const columns:any[] = [
     title: 'Название',
     dataIndex: 'name',
     key: 'name',
-    width: '30%',
+    width: '90%',
     sorter: (a: { name: number; }, b: { name: number; }) => a.name > b.name,
 
   },
-  {
-    title: 'ИНН',
-    dataIndex: 'inn',
-    key: 'inn',
-    width: '20%',
-  },
-  {
-    title: 'Телефон',
-    dataIndex: 'phone',
-    key: 'phone',
 
-  }
 ];
-const ClientTable: FunctionComponent<ClientTableProps> = ({dataTable}) => {
+const PriceTable: FunctionComponent<PriceTableProps> = ({dataTable}) => {
 
-  const {selectClient} = useActions();
-  const {isSelect} = useTypedSelector(state=>state.clients);
+  const {selectPriceNames} = useActions();
+  const {selectedPrice} = useTypedSelector(state=>state.price);
   function onChange( filters: any, sorter: any) {
     console.log('params',  filters, sorter);
   }
 
-  const dataTableAdapter = dataTable.map((client, index)=>({...client, key:index}));
+  const dataTableAdapter = dataTable.map((price)=>({...price, key:price.nameId}));
 
   return ( 
     <Table 
@@ -52,22 +41,22 @@ const ClientTable: FunctionComponent<ClientTableProps> = ({dataTable}) => {
 
         onClick: () => 
         
-          selectClient(record.key)
+        selectPriceNames(record.key)
         
 
       })
     }
     rowSelection={{
       // onChange: 
-      selectedRowKeys:[isSelect as number]
+      selectedRowKeys:[selectedPrice as number]
     }}
     onHeaderRow={(columns, index) => {
       return {
-        onClick: () => selectClient(null)
+        onClick: () => selectPriceNames(null)
       };
     }}
       />
   );
 };
 
-export default ClientTable;
+export default PriceTable;

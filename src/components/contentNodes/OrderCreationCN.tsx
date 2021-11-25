@@ -8,7 +8,7 @@ import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import { customButtonsStyleType } from "../../types/buttonTypes";
 import { customStyleButton } from "../../custom-styles-for-antd/styleVariables";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect, useHistory } from "react-router-dom";
 import AddButton from "../buttons/AddButton";
 import RawMaterialItem from "../RawMaterialItem/RawMaterialItem";
 import { routesEnum } from "../../types/routes";
@@ -19,6 +19,7 @@ import priceAPI from "../../backendAPI/priceAPI";
 import { CascaderTypes } from "../../types/customCascaderTypes";
 import { datapickerTypes } from "../../types/dataPickerTypes";
 import rawMaterialAPI from "../../backendAPI/rawMaterialAPI";
+import OrderAPI from "../../backendAPI/OrderAPI";
 
 interface OrderCreationCNProps {
 
@@ -32,12 +33,14 @@ const { block, shape, style, type, } = customStyleButton;
 
 
 const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
+  const history = useHistory();
   const {
     isContentOnRight: isOnRight,
     isNextBtnDisabled,
     client,
     price,
-    date
+    date,
+    rawMaterialList
     } = useTypedSelector(state => state.orderCreation);
 
   const {
@@ -59,7 +62,6 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
     clearDateOrderCreation();
   };
 
-  const rawMaterialList = useTypedSelector(state => state.orderCreation.rawMaterialList);
   const {
     backBackgroundBack,
     backBackgroundNext,
@@ -84,6 +86,15 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
     getRawMaterials(materials);
       };
 
+  const createOrderHandle = async()=>{
+    const normalazeData = OrderAPI.createOrderAdapter({rawMaterialList,client,price,date });
+    const orderResponse = await OrderAPI.createOrder(normalazeData);
+    if (orderResponse.message) {
+      alert(orderResponse.message);
+      return (history.goBack());
+    }
+  };
+
   useEffect(function () {
     Promise.all([handleGetClients(),handleGetPriceNames(),handleGetRawMaterials() ]);
     
@@ -94,12 +105,37 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
     };
   }, []);
 
+
+
   useEffect(function () {
 
-    client && price && date && setIsButtomUndisabled();
+    isOnRight && rawMaterialList.some(material=>{
+      return material.name;
+    }) 
+    ? setIsButtomUndisabled() 
+    : setIsButtomDisabled();
+    
+  }, [isOnRight,rawMaterialList]);
+
+
+
+  useEffect(function () {
+
+    client && price && date ? setIsButtomUndisabled() : setIsButtomDisabled();
     
   }, [client,price,date]);
   const rawMaterialsNames= useGenerateOptionCascaderRawMaterials();
+
+
+
+  // const checkNextBtnIsDisabled =():boolean=>{
+  //   if (!isNextBtnDisabled) {
+  //     return  isOnRight ? !isNextBtnDisabled : isNextBtnDisabled;
+  //   }
+  //   return isNextBtnDisabled;
+  // };
+
+
 
   return (
     <>
@@ -181,13 +217,16 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
               block={block}
               type={type}
               shape={shape}
+              
               style={{
                 ...style,
                 backgroundColor: generateCSSColor(backBackgroundNext),
-                color: generateCSSColor(btnColorNext)
+                color: generateCSSColor(btnColorNext),
+                opacity: isNextBtnDisabled ? 0.5 : 1
               }}
+              onClick={isOnRight ? createOrderHandle : setOnRight}
               disabled={isNextBtnDisabled}
-              onClick={isOnRight ? undefined : setOnRight}
+
             >
               {customButtonsStyleType.next}
             </Button>

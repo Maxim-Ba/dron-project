@@ -145,7 +145,6 @@ min-height: 47px;
   text-align: center;
 }
 .client_collapse{
-  /* width: 50px; */
 
 }
 .client_panel{
@@ -153,4 +152,8 @@ min-height: 47px;
 }
 .modal__wrapper{
 
+}
+
+.client-view__bolder{
+  font-weight: bold;
 }

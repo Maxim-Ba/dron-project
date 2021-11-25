@@ -14,21 +14,74 @@ const gettingPropsFromStore: IDatacolumn[] = [
     sum: 1000,
     orders: [
       {
+        orderId:1,
         date: dateNow,
-        rawMaterial: 'govno',
-        amount: 1134,
+        materialList:[
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          },
+          {
+            rawMaterial: 'go2323232323v 232ggggvno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          },
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          },
+          {
+            rawMaterial: 'gov23232323232323no',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          },
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          },
+        ],
+
         price: 500.0
       },
       {
+        orderId:2,
         date: dateNow,
-        rawMaterial: 'govno',
-        amount: 113,
+        materialList:[
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          }
+        ],
         price: 500.0
       },
       {
+        orderId:3,
         date: dateNow,
-        rawMaterial: 'govno',
-        amount: 113,
+        materialList:[
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          }
+        ],
         price: 500.0
       },
     ]
@@ -38,33 +91,73 @@ const gettingPropsFromStore: IDatacolumn[] = [
     sum: 1000,
     orders: [
       {
+        orderId:4,
         date: dateNow,
-        rawMaterial: '345',
-        amount: 113,
+        materialList:[
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          }
+        ],
         price: 6000.0
       },
       {
+        orderId:5,
         date: dateNow,
-        rawMaterial: '34555345345345',
-        amount: 113,
+        materialList:[
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          }
+        ],
         price: 50000.0
       },
       {
+        orderId:6,
         date: dateNow,
-        rawMaterial: '3345345',
-        amount: 113,
+        materialList:[
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          }
+        ],
         price: 50000.0
       },
       {
+        orderId:7,
         date: dateNow,
-        rawMaterial: '555555',
-        amount: 113,
+        materialList:[
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          }
+        ],
         price: 500.0
       },
       {
+        orderId:8,
         date: dateNow,
-        rawMaterial: 'fffgovdfgdfgdfgdfnof',
-        amount: 1135,
+        materialList:[
+          {
+            rawMaterial: 'govno',
+            amount: 1134,
+            price:234,
+            priceByOne:3,
+            units:'кг'
+          }
+        ],
         price: 500500.0
       },
     ]
