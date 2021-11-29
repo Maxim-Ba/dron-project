@@ -23,7 +23,7 @@ const HeaderRowOfTable: FunctionComponent<HeaderRowOfTableProps> = ({ name, sum,
         {orders.map(order => {
           return (
             <Collapse accordion expandIconPosition='right' style={width} key={order.orderId}>
-              <Panel header={<OrderViewPanel sum={sum} date={order.date} id={order.orderId} />} key="1" >
+              <Panel header={<OrderViewPanel sum={order.price} date={order.date} id={order.orderId} />} key="1" >
                 <CustomTableItem showHeader={true} materialList={order.materialList} />
 
               </Panel>

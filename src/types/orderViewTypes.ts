@@ -1,9 +1,12 @@
+import { IDatacolumn } from "./dataColumn";
+
 export interface IOrderViewState {
     isOnRight:boolean,
     isDisabled:boolean,
     selectedClient:null | {id:number, name:string}
     selectedDateStart: null | Date |string
     selectedDateEnd: null | Date | string
+    tableData: IDatacolumn[] | []
 }
 
 export enum OrderViewActionTypes {
@@ -13,9 +16,14 @@ export enum OrderViewActionTypes {
     SET_UNABLED_NEXT="SET_UNABLED_NEXT",
     SELECT_CLIENT="SELECT_CLIENT",
     SELECT_DATE_END="SELECT_DATE_END",
-    SELECT_DATE_START="SELECT_DATE_START"
+    SELECT_DATE_START="SELECT_DATE_START",
+    SET_TABLE_DATA="SET_TABLE_DATA"
 }
 
+interface ISetTableDataAction {
+    type:OrderViewActionTypes.SET_TABLE_DATA,
+    payload: IDatacolumn[] | []
+}
 interface ISetOnRightAction {
     type:OrderViewActionTypes.SET_ON_RIGHT
 }
@@ -48,3 +56,4 @@ export type OrderViewActions =
     | ISelectClientAction
     | ISelectDateStartAction
     | ISelectDateEndAction
+    | ISetTableDataAction

@@ -1,12 +1,14 @@
-import { Button, Col, DatePicker, Row } from "antd";
+import { Button, Col, Row } from "antd";
 import { CSSProperties, FunctionComponent, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import clientsAPI from "../../backendAPI/clientsAPI";
+import OrderAPI from "../../backendAPI/OrderAPI";
 import { customStyleButton } from "../../custom-styles-for-antd/styleVariables";
 import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { customButtonsStyleType } from "../../types/buttonTypes";
 import { CascaderTypes } from "../../types/customCascaderTypes";
+import { IDatacolumn } from "../../types/dataColumn";
 import { routesEnum } from "../../types/routes";
 import { generateCSSColor } from "../../utils/generateCSSColor";
 import { useGenerateOptionCascaderClient } from "../../utils/generateOptionCascader";
@@ -26,8 +28,8 @@ const width: CSSProperties = {
 const { block, shape, style, type, } = customStyleButton;
 
 const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
-  const { setOnLeftOrderViev, setOnRightOrderViev, getClients, selectDateStatrVO, selectDateEndVO, selectClientVO, setDisabledNextBtn, setUnaisabledNextBtn } = useActions();
-  const { isDisabled, isOnRight, selectedClient } = useTypedSelector(state => state.viewOrder);
+  const { setOnLeftOrderViev, setOnRightOrderViev, getClients, selectDateStatrVO, selectDateEndVO, selectClientVO, setDisabledNextBtn, setUnaisabledNextBtn, setTableDataVO } = useActions();
+  const { isDisabled, isOnRight, selectedClient, selectedDateStart, selectedDateEnd, tableData } = useTypedSelector(state => state.viewOrder);
   const {
     backBackgroundBack,
     backBackgroundNext,
@@ -49,6 +51,29 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
     // isFetch
   };
 
+  const showOrdersData = async () => {
+    // isFetch
+    const ordersData = await OrderAPI.getOrdersByClient(selectedClient?.id as number, selectedDateStart, selectedDateEnd);
+    setTableDataVO(ordersData as IDatacolumn[]);
+
+    // isFetch
+
+    setOnRightOrderViev();
+  };
+
+  const handleGetAllClients = async () => {
+    // isFetch
+    const ordersData = await OrderAPI.getOrders(selectedDateStart, selectedDateEnd);
+    setTableDataVO(ordersData as IDatacolumn[]);
+    // isFetch
+    setOnRightOrderViev();
+
+  };
+  const getExelFile = async()=>{
+    const ordersData = await OrderAPI.getExelFile(tableData);
+  };
+
+
   useEffect(function () {
     selectedClient ? setUnaisabledNextBtn() : setDisabledNextBtn();
   }, [selectedClient]);
@@ -60,6 +85,7 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
       setOnLeftOrderViev();
       selectDateStatrVO(null);
       selectDateEndVO(null);
+      setTableDataVO([]);
     };
   }, []);
 
@@ -94,7 +120,12 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
 
           <Row gutter={[0, 16]} justify='center' align="top" className="order-view__general-list-row">
             <Col span={24} className="order-creation__item">
-              <Button shape={shape} style={{ ...style, ...width }} type={type}>
+              <Button
+                shape={shape}
+                style={{ ...style, ...width }}
+                type={type}
+                onClick={handleGetAllClients}
+              >
                 Общий список
               </Button>
             </Col>
@@ -141,12 +172,28 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
                 }}
 
                 disabled={isDisabled}
-                onClick={isOnRight ? undefined : setOnRightOrderViev}
+                onClick={showOrdersData}
               >
                 {customButtonsStyleType.show}
               </Button>
             </div>
-            : null}
+            : 
+            <div className="order-creation__navlink">
+            <Button
+              block={block}
+              type={type}
+              shape={shape}
+              style={{
+                ...style,
+                backgroundColor: generateCSSColor(backBackgroundNext),
+                color: generateCSSColor(btnColorNext),
+              }}
+
+              onClick={getExelFile}
+            >
+              {customButtonsStyleType.print}
+            </Button>
+          </div>}
         </div>
       </Footer>
     </>

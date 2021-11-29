@@ -1,5 +1,6 @@
 import { Col, DatePicker, Row } from "antd";
 import { FunctionComponent, useEffect, useState } from "react";
+import { useStore } from "react-redux";
 import { useActions } from "../hooks/useActions";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 
@@ -32,14 +33,6 @@ const CustomRangePicker: FunctionComponent<CustomRangePickerProps> = () => {
     return endValue.valueOf() <= selectedDateStart.valueOf();
   };
 
-  
-  // const onStartChange = (value: string) => {
-  //   onChange('startValue', value);
-  // };
-
-  // const onEndChange = (value: string) => {
-  //   onChange('endValue', value);
-  // };
 
   const handleStartOpenChange = (open: any) => {
     if (!open) {
@@ -75,8 +68,7 @@ const CustomRangePicker: FunctionComponent<CustomRangePickerProps> = () => {
 
     <Col span={24} className="order-creation__item">
       <DatePicker
-              disabledDate={disabledEndDate}
-
+        disabledDate={disabledEndDate}
         style={{ maxWidth: 300 }}
         onChange={(dates, dateStrings) => {
           console.log(typeof dateStrings);

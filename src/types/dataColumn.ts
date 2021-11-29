@@ -4,9 +4,10 @@ export interface IDatacolumn {
   orders:IOrder[]
 }
 export interface IMaterialList {
+  rawMaterialId:number,
   rawMaterial:string,
   amount:number,
-  units:string,
+  units:number,
   priceByOne:number
   price:number
 

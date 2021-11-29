@@ -7,9 +7,10 @@ import {
 const initialState: IOrderViewState = {
   isDisabled: false,
   isOnRight: false,
-  selectedClient:null,
+  selectedClient: null,
   selectedDateStart: null,
-  selectedDateEnd: null
+  selectedDateEnd: null,
+  tableData: [],
 };
 
 export const viewOrderReducer = (
@@ -37,21 +38,26 @@ export const viewOrderReducer = (
         ...state,
         isDisabled: false,
       };
-      case OrderViewActionTypes.SELECT_CLIENT:
-        return {
-          ...state,
-          selectedClient: action.payload,
-        };
-        case OrderViewActionTypes.SELECT_DATE_START:
-          return {
-            ...state,
-            selectedDateStart: action.payload,
-          };
-          case OrderViewActionTypes.SELECT_DATE_END:
-            return {
-              ...state,
-              selectedDateEnd: action.payload,
-            };
+    case OrderViewActionTypes.SELECT_CLIENT:
+      return {
+        ...state,
+        selectedClient: action.payload,
+      };
+    case OrderViewActionTypes.SELECT_DATE_START:
+      return {
+        ...state,
+        selectedDateStart: action.payload,
+      };
+    case OrderViewActionTypes.SELECT_DATE_END:
+      return {
+        ...state,
+        selectedDateEnd: action.payload,
+      };
+    case OrderViewActionTypes.SET_TABLE_DATA:
+      return {
+        ...state,
+        tableData: [...action.payload],
+      };
     default:
       return state;
   }

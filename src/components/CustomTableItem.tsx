@@ -8,10 +8,17 @@ interface CustomTableItemProps {
   materialList: IMaterialList[]
 }
 
-const addKG = (amount: number, units: string): string => {
-  return amount.toString() + units;
+const addKG = (amount: number, unitsId: number): string => {
+  const unitName =  unitsId===1 ? ' кг' : ' шт';
+  if (amount === null) {
+    amount = 0;
+  }
+  return amount.toString() + unitName;
 };
 const addRub = (amount: number): string => {
+  if (amount === null) {
+    amount = 0;
+  }
   return amount.toString() + ' руб.';
 };
 
@@ -56,7 +63,8 @@ const formateList = (materialList: IMaterialList[]): INewMaterialList[] => {
   return materialList.map((item) => ({
     ...item,
     amount: addKG(item.amount, item.units),
-    price: addRub(item.price)
+    price: addRub(item.price),
+    key: item.rawMaterialId
   }));
 };
 
@@ -74,7 +82,15 @@ const CustomTableItem: FunctionComponent<CustomTableItemProps> = ({ showHeader, 
         pagination={false}
         scroll={{ x: 400 }}
         tableLayout='fixed'
+        onRow={(record, rowIndex) => {
+          return {
+            onDoubleClick: event => {
+              console.log(record, 'record', rowIndex);
+            }, 
+          };
+        }}
       />
+
     </section>
   );
 };

@@ -8,6 +8,9 @@ interface OrderViewPanelProps {
 }
 
 const OrderViewPanel: FunctionComponent<OrderViewPanelProps> = ({ sum, date, id}) => {
+  if (sum === null) {
+    sum = 0;
+  }
   return ( 
 <Row gutter={16} >
       <Col className="gutter-row" span={24-8} >

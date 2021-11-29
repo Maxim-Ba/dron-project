@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import { IDatacolumn } from "../../types/dataColumn";
 import { OrderViewActionTypes, OrderViewActions } from "../../types/orderViewTypes";
 
 export const setOnRightOrderViev = () =>{
@@ -42,6 +43,14 @@ export const setOnRightOrderViev = () =>{
         dispatch({
           type:OrderViewActionTypes.SELECT_DATE_END,
           payload: date
+        });
+    };
+  };
+  export const setTableDataVO = (ordersData: IDatacolumn[] | []) =>{
+    return async (dispatch:Dispatch<OrderViewActions>)=>{
+        dispatch({
+          type:OrderViewActionTypes.SET_TABLE_DATA,
+          payload: ordersData
         });
     };
   };
