@@ -1,3 +1,4 @@
+import { defaultT, IOptionStateType } from './../../types/optionsTypes';
 import { Dispatch } from 'redux';
 import { OptionsActions, OptionsActionTypes } from '../../types/optionsTypes';
 
@@ -100,6 +101,14 @@ export const setDefault = ()=>{
   return async (dispatch:Dispatch<OptionsActions>)=>{
     dispatch({
       type:OptionsActionTypes.SET_DEFAULT,
+    });
+  };
+};
+export const setAllStyleFromLocStor = (optionsData:defaultT)=>{
+  return async (dispatch:Dispatch<OptionsActions>)=>{
+    dispatch({
+      type:OptionsActionTypes.SET_ALL,
+      payload:optionsData
     });
   };
 };

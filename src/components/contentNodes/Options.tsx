@@ -63,6 +63,23 @@ const Options: FunctionComponent<OptionsProps> = () => {
     }
   };
 
+  const saveToLocaleStorage = ()=>{
+    localStorage.setItem('options', JSON.stringify(
+      {
+        backBackgroundBack,
+        backBackgroundBigBtn,
+        backBackgroundFooter,
+        backBackgroundHeader,
+        backBackgroundNext,
+        btnColorBack,
+        btnColorBig,
+        btnColorNext,
+        generalBackground,
+        generalColor,
+      }
+    ));
+  };
+
     return ( 
   <>
         <Header buttonName={customButtonsStyleType.options} />
@@ -212,7 +229,10 @@ const Options: FunctionComponent<OptionsProps> = () => {
             style={{
               color: generateCSSColor(generalColor)
             }}
-          >Темы по умолчанию</Divider>
+          >
+            Темы по умолчанию
+          </Divider>
+          
           <Radio.Group 
             defaultValue={setDefaultValueRadioBtn()}
             buttonStyle="solid" 
@@ -265,6 +285,7 @@ const Options: FunctionComponent<OptionsProps> = () => {
                 color: generateCSSColor(btnColorNext)
               }}        
               disabled={false}
+              onClick={saveToLocaleStorage}
             >
               {customButtonsStyleType.save}
             </Button>

@@ -24,6 +24,8 @@ const ColorSliders: FunctionComponent<ColorSlidersProps> = ({ blue, green, red, 
             max={255}
             onChange={n => callback(n, green, blue)}
             value={typeof red === 'number' ? red : 0}
+            handleStyle={{touchAction:'none'}}
+            trackStyle={{touchAction:'none'}}
           />
         </Col>
         <Col span={4}>
@@ -45,6 +47,8 @@ const ColorSliders: FunctionComponent<ColorSlidersProps> = ({ blue, green, red, 
             max={255}
             onChange={n => callback(red, n, blue)}
             value={typeof green === 'number' ? green : 0}
+            style={{touchAction:'none'}}
+
           />
         </Col>
         <Col span={4}>
@@ -54,6 +58,7 @@ const ColorSliders: FunctionComponent<ColorSlidersProps> = ({ blue, green, red, 
             style={{ margin: '0 5px' }}
             value={typeof green === 'number' ? green : 0}
             onChange={n => callback(red, n, blue)}
+            
           />
         </Col>
       </Row>
@@ -65,6 +70,7 @@ const ColorSliders: FunctionComponent<ColorSlidersProps> = ({ blue, green, red, 
             max={255}
             onChange={n => callback(red, green, n)}
             value={typeof blue === 'number' ? blue : 0}
+            style={{touchAction:'none'}}
           />
         </Col>
         <Col span={4}>

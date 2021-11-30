@@ -1,6 +1,6 @@
 export type rgb = {red:number,green:number, blue:number}
 
-type defaultT = {
+export type defaultT = {
   generalBackground: rgb
   backBackgroundBack:rgb
   backBackgroundNext:rgb
@@ -11,7 +11,7 @@ type defaultT = {
   btnColorBack:rgb
   btnColorNext:rgb
   btnColorBig:rgb
-  isSelected:boolean
+  isSelected?:boolean
 }
 export interface IOptionStateType{
   generalBackground: rgb
@@ -43,6 +43,7 @@ export enum OptionsActionTypes {
   COLOR_BIG_BUTTON="COLOR_BIG_BUTTON",
   COLOR_BACK="COLOR_BACK",
   COLOR_NEXT="COLOR_NEXT",
+  SET_ALL="SET_ALL"
 
 }
 
@@ -95,6 +96,10 @@ interface setDarkTheme {
 interface setDefault {
   type:OptionsActionTypes.SET_DEFAULT
 }
+interface setAllStyleFromLocStor {
+  type:OptionsActionTypes.SET_ALL,
+  payload:defaultT
+}
 export type OptionsActions = 
   setGeneralBackGround
   | setNextBackGround
@@ -110,3 +115,4 @@ export type OptionsActions =
   | installColorNext
   | installColorBigBtn
   | installColorGeneral
+  | setAllStyleFromLocStor

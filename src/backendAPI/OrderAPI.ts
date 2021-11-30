@@ -35,9 +35,6 @@ class OrderAPI {
       console.log(error);
     }
   }
-
-
-  
   
   async getOrders(
     dateStart: string | Date | null,

@@ -312,6 +312,23 @@ export const optionReducer = (
         lightTheme: { ...state.lightTheme, isSelected: false },
         darkTheme: { ...state.darkTheme, isSelected: false },
       };
+      case OptionsActionTypes.SET_ALL:
+        return {
+          ...state,
+          default: { ...state.default, isSelected: false },
+          lightTheme: { ...state.lightTheme, isSelected: false },
+          darkTheme: { ...state.darkTheme, isSelected: false },
+          generalBackground: action.payload.generalBackground,
+          backBackgroundBack:action.payload.backBackgroundBack,
+          backBackgroundNext:action.payload.backBackgroundNext,
+          backBackgroundHeader:action.payload.backBackgroundHeader,
+          backBackgroundFooter:action.payload.backBackgroundFooter,
+          backBackgroundBigBtn:action.payload.backBackgroundBigBtn,
+          generalColor:action.payload.generalColor,
+          btnColorBack:action.payload.btnColorBack,
+          btnColorNext:action.payload.btnColorNext,
+          btnColorBig:action.payload.btnColorBig
+        };
     default:
       return state;
   }

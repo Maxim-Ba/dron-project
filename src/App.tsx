@@ -30,7 +30,7 @@ function App() {
     generalColor,
   } = useTypedSelector(state => state.options);
 
-  const {setUser, setIsFetching} = useActions();
+  const {setUser, setIsFetching, setAllStyleFromLocStor} = useActions();
   // const {isFetching } = useTypedSelector(state=>state.user);
 
   const handleAuth = async() =>{
@@ -42,11 +42,16 @@ function App() {
 
   useEffect(
     () => {
+      if (localStorage.getItem('options')) {
+        const options = JSON.parse(localStorage.getItem('options') as string);
+        setAllStyleFromLocStor(options);
+      }
       handleAuth();
     },
     []
   );
 
+  
   return (
     <main
       style={{

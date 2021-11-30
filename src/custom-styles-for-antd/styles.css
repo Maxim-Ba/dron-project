@@ -133,7 +133,7 @@
 }
 .options__radio-group{
 text-align: center;
-min-height: 47px;
+min-height: 80px;
 }
 .slider_red .ant-slider-track{
   background-color: red;
