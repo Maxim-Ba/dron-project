@@ -17,6 +17,7 @@ export interface IEditRawMaterialsState {
         units:string | null
     },
     valuesForChange:rawMaterial | {}
+    isFetch:boolean
 }
 
 export enum editRawMaterialsActionsTypes{
@@ -30,13 +31,17 @@ export enum editRawMaterialsActionsTypes{
     SET_MATERIALS_NAME_CREATE="SET_MATERIALS_NAME_CREATE",
     SET_MATERIALS_UNIT_CREATE="SET_MATERIALS_UNITS_CREATE",
     SET_UNITS="SET_UNITS",
-    SET_FOR_CHANGES="SET_FOR_CHANGES"
+    SET_FOR_CHANGES="SET_FOR_CHANGES",
+    FETCH="FETCH"
 
 }
-
 interface setUnitsAction {
     type:editRawMaterialsActionsTypes.SET_UNITS,
     payload:Units[]
+}
+interface fetchAction {
+    type:editRawMaterialsActionsTypes.FETCH,
+    payload:boolean
 }
 
 interface seChangesAction {
@@ -93,3 +98,4 @@ export type EditRawMaterialsActions =
     | selectMaterialsNameCreateAction
     | setUnitsAction
     | seChangesAction
+    | fetchAction

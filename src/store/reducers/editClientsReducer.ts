@@ -18,7 +18,8 @@ const initialState: IClientsState = {
     phone: null,
     id: 1,
   },
-  readyForDelete:false
+  readyForDelete:false,
+  isFetching:false
 };
 
 export const editClientsReducer = (
@@ -26,36 +27,11 @@ export const editClientsReducer = (
   action: EditClientsActions
 ): IClientsState => {
   switch (action.type) {
-    // case clientActionsTypes.CREATE:
-    //   return {
-    //     ...state,
-    //       clientList: [
-    //         ...state.clientList,
-    //         { id: action.payload.id,
-    //           name: action.payload.name,
-    //           INN:action.payload.INN,
-    //           phon:action.payload.phon,
-    //         }
-    //       ],
-    //   };
     case clientActionsTypes.GET:
       return {
         ...state,
         clientList: [...action.payload],
       };
-    // case clientActionsTypes.CHANGE:
-    //   return {
-    //     ...state,
-    //     clientList: state.clientList.map((client) => {
-    //       return client.id === action.payload.id
-    //         ? { id: action.payload.id,
-    //             name: action.payload.name,
-    //             INN:action.payload.INN,
-    //             phon:action.payload.phon,
-    //           }
-    //         : client;
-    //     }),
-    //   };
     case clientActionsTypes.SET_NAME_CLIENT:
       return {
         ...state,
@@ -118,6 +94,11 @@ export const editClientsReducer = (
           ...state,
             readyForDelete:action.payload
           };
+          case clientActionsTypes.TOGGLE_FETCH:
+            return {
+              ...state,
+                isFetching:action.payload
+              };
     default:
       return state;
   }

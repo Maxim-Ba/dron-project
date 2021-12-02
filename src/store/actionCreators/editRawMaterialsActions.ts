@@ -61,3 +61,9 @@ export const setChanges = (newMaterial:rawMaterial) => {
         dispatch({ type: editRawMaterialsActionsTypes.SET_FOR_CHANGES, payload: newMaterial });
     };
 };
+
+export const fetchRawMaterials = (flag:boolean) => {
+    return async (dispatch: Dispatch<EditRawMaterialsActions>) => {
+        dispatch({ type: editRawMaterialsActionsTypes.FETCH, payload: flag });
+    };
+};

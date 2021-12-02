@@ -13,7 +13,8 @@ export interface IClientsState {
   };
   isSelect:null | number,
   selectedClientsFields:ClientType,
-  readyForDelete:boolean
+  readyForDelete:boolean,
+  isFetching:boolean
 
 }
 
@@ -30,9 +31,13 @@ export enum clientActionsTypes {
   SET_INN_CLIENT_FOR_CHANGE = "SET_INN_CLIENT_FOR_CHANGE",
   SET_PHONE_CLIENT_FOR_CHANGE = "SET_PHONE_CLIENT_FOR_CHANGE",
   READY_FOR_DELETE = "READY_FOR_DELETE",
+  TOGGLE_FETCH = "TOGGLE_FETCH",
 
 }
-
+interface toggleFetchAction {
+  type: clientActionsTypes.TOGGLE_FETCH,
+  payload:boolean
+}
 interface getClientssAction {
   type: clientActionsTypes.GET;
   payload: Array<ClientType>;
@@ -96,3 +101,4 @@ export type EditClientsActions =
   | setClientINNForChangeAction
   | setClientPhonesForChangeAction
   | ReadyForDeleteClient
+  | toggleFetchAction

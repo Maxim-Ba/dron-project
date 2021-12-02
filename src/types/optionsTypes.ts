@@ -43,7 +43,7 @@ export enum OptionsActionTypes {
   COLOR_BIG_BUTTON="COLOR_BIG_BUTTON",
   COLOR_BACK="COLOR_BACK",
   COLOR_NEXT="COLOR_NEXT",
-  SET_ALL="SET_ALL"
+  SET_ALL="SET_ALL",
 
 }
 

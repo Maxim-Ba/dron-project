@@ -1,5 +1,5 @@
 import { CSSProperties, FunctionComponent, useEffect } from "react";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Spin } from "antd";
 import CustomCascader from "../CustomCascader";
 import CustomDatePicker from "../CustomDatePicker";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
@@ -40,26 +40,30 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
     client,
     price,
     date,
-    rawMaterialList
-    } = useTypedSelector(state => state.orderCreation);
+    rawMaterialList,
+    isFetch
+  } = useTypedSelector(state => state.orderCreation);
 
   const {
-      setOnRight,
-      setOnLeft,
-      getClients,
-      getPriceNames,
-      setIsButtomUndisabled,
-      setIsButtomDisabled,
-      getRawMaterials,
-      removeClientOrderCreation,
-      removePriceOrderCreation,
-      clearDateOrderCreation,
+    setOnRight,
+    setOnLeft,
+    getClients,
+    getPriceNames,
+    setIsButtomUndisabled,
+    setIsButtomDisabled,
+    getRawMaterials,
+    removeClientOrderCreation,
+    removePriceOrderCreation,
+    clearDateOrderCreation,
+    toggleFetchOrderCreation,
+    clearRawMaterialsListOrderCreation
   } = useActions();
 
   const clearOrderCreationStore = () => {
     removeClientOrderCreation();
     removePriceOrderCreation();
     clearDateOrderCreation();
+    toggleFetchOrderCreation(false);
   };
 
   const {
@@ -73,33 +77,50 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
 
   const handleGetClients = async () => {
     const data = await clientsAPI.getClients();
+    if (data === 401) {
+      return history.goBack();
+    }
     getClients(data);
   };
 
   const handleGetPriceNames = async () => {
     const data = await priceAPI.getPriceNames();
+    if (data === 401) {
+      return history.goBack();
+    }
     getPriceNames(data);
   };
 
   const handleGetRawMaterials = async () => {
     const materials = await rawMaterialAPI.getRawMaterials();
+    if (materials === 401) {
+      return history.goBack();
+    }
     getRawMaterials(materials);
-      };
+  };
 
-  const createOrderHandle = async()=>{
-    const normalazeData = OrderAPI.createOrderAdapter({rawMaterialList,client,price,date });
+  const createOrderHandle = async () => {
+    toggleFetchOrderCreation(true);
+    const normalazeData = OrderAPI.createOrderAdapter({ rawMaterialList, client, price, date });
     const orderResponse = await OrderAPI.createOrder(normalazeData);
+    clearRawMaterialsListOrderCreation();
+    toggleFetchOrderCreation(false);
     if (orderResponse.message) {
+      clearRawMaterialsListOrderCreation();
       alert(orderResponse.message);
       return (history.goBack());
     }
   };
 
   useEffect(function () {
-    Promise.all([handleGetClients(),handleGetPriceNames(),handleGetRawMaterials() ]);
-    
-    return () => { 
-      setOnLeft(); 
+    toggleFetchOrderCreation(true);
+    Promise.all([handleGetClients(), handleGetPriceNames(), handleGetRawMaterials()])
+      .finally(() => {
+        toggleFetchOrderCreation(false);
+      });
+
+    return () => {
+      setOnLeft();
       setIsButtomDisabled();
       clearOrderCreationStore();
     };
@@ -109,33 +130,23 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
 
   useEffect(function () {
 
-    isOnRight && rawMaterialList.some(material=>{
+    isOnRight && rawMaterialList.some(material => {
       return material.name;
-    }) 
-    ? setIsButtomUndisabled() 
-    : setIsButtomDisabled();
-    
-  }, [isOnRight,rawMaterialList]);
+    })
+      ? setIsButtomUndisabled()
+      : setIsButtomDisabled();
+
+  }, [isOnRight, rawMaterialList]);
 
 
 
   useEffect(function () {
 
     client && price && date ? setIsButtomUndisabled() : setIsButtomDisabled();
-    
-  }, [client,price,date]);
-  const rawMaterialsNames= useGenerateOptionCascaderRawMaterials();
 
+  }, [client, price, date]);
 
-
-  // const checkNextBtnIsDisabled =():boolean=>{
-  //   if (!isNextBtnDisabled) {
-  //     return  isOnRight ? !isNextBtnDisabled : isNextBtnDisabled;
-  //   }
-  //   return isNextBtnDisabled;
-  // };
-
-
+  const rawMaterialsNames = useGenerateOptionCascaderRawMaterials();
 
   return (
     <>
@@ -151,46 +162,49 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
         <section
           className="order-creation__section"
         >
+          <Spin spinning={isFetch} tip="Loading...">
+            <Row gutter={[0, 16]} justify='center' align="top">
 
-          <Row gutter={[0, 16]} justify='center' align="top">
+              <Col span={24} className="order-creation__item">
+                <CustomCascader
+                  index={0}
+                  defaultValue={client?.name || ''}
+                  options={useGenerateOptionCascaderClient()}
+                  typeCascader={CascaderTypes.SET_CLIENT_ORDER_CREATION}
+                />
+              </Col>
 
-            <Col span={24} className="order-creation__item">
-              <CustomCascader
-                            index={0}
+              <Col span={24} className="order-creation__item">
+                <CustomCascader
+                  index={0}
+                  defaultValue={price?.name || ''}
+                  options={useGenerateOptionCascaderPrice()}
+                  typeCascader={CascaderTypes.SET_PRICE_ORDER_CREATION}
 
-                defaultValue={client?.name || ''}
-                options={useGenerateOptionCascaderClient()}
-                typeCascader={CascaderTypes.SET_CLIENT_ORDER_CREATION}
-              />
-            </Col>
+                />
+              </Col>
 
-            <Col span={24} className="order-creation__item">
-              <CustomCascader
-              index={0}
-                defaultValue={price?.name || ''}
-                options={useGenerateOptionCascaderPrice()}
-                typeCascader={CascaderTypes.SET_PRICE_ORDER_CREATION}
-
-              />
-            </Col>
-
-            <Col span={24} className="order-creation__item">
-              <CustomDatePicker
-                props={{
-                  width: width,
-                  type:datapickerTypes.ORDER_CREATION
+              <Col span={24} className="order-creation__item">
+                <CustomDatePicker
+                  props={{
+                    width: width,
+                    type: datapickerTypes.ORDER_CREATION
                   }}
-              />
-            </Col>
+                />
+              </Col>
 
-          </Row>
+            </Row>
+          </Spin>
         </section>
 
         <section className="order-creation__section order-creation__section_j-c-center">
-          {rawMaterialList.map((rawMaterial, index: number) => {
-            return <RawMaterialItem key={index} index={index} options={rawMaterialsNames} />;
-          })}
-          <AddButton />
+          <Spin spinning={isFetch} tip="Loading...">
+            {rawMaterialList.map((rawMaterial, index: number) => {
+              return <RawMaterialItem key={index} index={index} options={rawMaterialsNames} />;
+            })}
+          </Spin>
+
+            <AddButton />
         </section>
 
       </div>
@@ -211,13 +225,11 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
               {customButtonsStyleType.cancel}
             </Button>
           </NavLink>
-
           <div className="order-creation__navlink">
             <Button
               block={block}
               type={type}
               shape={shape}
-              
               style={{
                 ...style,
                 backgroundColor: generateCSSColor(backBackgroundNext),
@@ -226,7 +238,6 @@ const OrderCreationCN: FunctionComponent<OrderCreationCNProps> = () => {
               }}
               onClick={isOnRight ? createOrderHandle : setOnRight}
               disabled={isNextBtnDisabled}
-
             >
               {customButtonsStyleType.next}
             </Button>

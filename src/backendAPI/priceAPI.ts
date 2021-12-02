@@ -17,8 +17,10 @@ class PriceAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
-      console.log(data);
       const priceList = data.map((itemPrice: { id_price: number; coast: number |null; raw_material_id: number; name: string; }):PriceType=>{
         return {
           id:itemPrice.id_price,
@@ -41,6 +43,9 @@ class PriceAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       return data;
     } catch (error) {
@@ -56,6 +61,9 @@ class PriceAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       const result = data.map((item: { id_price_name: any; price_name: any; })=>({
         nameId:item.id_price_name,
@@ -78,6 +86,9 @@ class PriceAPI{
         body: JSON.stringify({name})
 
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       const result = data.map((item: { id_price_name: any; price_name: any; })=>({
         nameId:item.id_price_name,
@@ -100,6 +111,9 @@ class PriceAPI{
         body: JSON.stringify(array)
 
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       console.log(data);
       return data;
@@ -116,6 +130,9 @@ class PriceAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       const result = data.map((item: { id_price_name: any; price_name: any; })=>({
         nameId:item.id_price_name,

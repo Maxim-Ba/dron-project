@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { useActions } from '../../../hooks/useActions';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 
@@ -48,6 +48,7 @@ const ClientTable: FunctionComponent<ClientTableProps> = ({dataTable}) => {
       dataSource={dataTableAdapter} 
       onChange={onChange} 
       pagination={false} 
+      scroll={{ x: 100}}
       onRow={(record) => ({
 
         onClick: () => 
@@ -58,7 +59,6 @@ const ClientTable: FunctionComponent<ClientTableProps> = ({dataTable}) => {
       })
     }
     rowSelection={{
-      // onChange: 
       selectedRowKeys:[isSelect as number]
     }}
     onHeaderRow={(columns, index) => {

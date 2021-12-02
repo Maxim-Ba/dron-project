@@ -1,5 +1,5 @@
-import { FunctionComponent} from "react";
-import { Form, Input, Button } from 'antd';
+import { FunctionComponent, useEffect} from "react";
+import { Form, Input, Button, Spin } from 'antd';
 import Header from "../Header/Header";
 import { customButtonsStyleType } from "../../types/buttonTypes";
 import usersAPI from "../../backendAPI/usersAPI";
@@ -22,23 +22,31 @@ const LoginCN: FunctionComponent<LoginCNProps> = () => {
   const {isFetching } = useTypedSelector(state=>state.user);
 
   const onFinish = async(values: any) => {
-    setIsFetching(true);
-    const data  = await usersAPI.login(values.email, values.password);
-    setUser(data?.id, data?.email, data?.role);
-    setIsFetching(false);
+    try {
+      setIsFetching(true);
+      const data  = await usersAPI.login(values.email, values.password);
+      setUser(data?.id, data?.email, data?.role);
+    } catch (error) {
+      console.log(error);
+    } finally{
+      setIsFetching(false);
+    }
   };
+
+  useEffect(()=>{
+    return()=>{setIsFetching(false);};
+  },[]);
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
-
   return (
     <>
       {id && <Redirect to={routesEnum.ORDER_MANAGER} />}
 
       <Header buttonName={customButtonsStyleType.login} />
       <section className="admin">
-
+      <Spin spinning={isFetching} tip="Loading...">
         <Form
           name="login"
           labelCol={{ span: 8 }}
@@ -46,7 +54,6 @@ const LoginCN: FunctionComponent<LoginCNProps> = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-
           <Form.Item
             label="Email"
             name="email"
@@ -54,7 +61,6 @@ const LoginCN: FunctionComponent<LoginCNProps> = () => {
           >
             <Input type='email' />
           </Form.Item>
-
           <Form.Item
             label="Пароль"
             name="password"
@@ -66,11 +72,6 @@ const LoginCN: FunctionComponent<LoginCNProps> = () => {
           >
             <Input.Password />
           </Form.Item>
-
-          {/* <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-        <Checkbox>Запомнить меня</Checkbox>
-      </Form.Item> */}
-
           <Form.Item 
             className="registration__button"
           >
@@ -78,10 +79,10 @@ const LoginCN: FunctionComponent<LoginCNProps> = () => {
               Войти
             </Button>
           </Form.Item>
-
         </Form>
-
+        </Spin>
         <NavLink
+          hidden={isFetching}
           to={routesEnum.REGISTRATION}
           className="registration__button"
         >
@@ -89,7 +90,6 @@ const LoginCN: FunctionComponent<LoginCNProps> = () => {
             Регистрация 
           </Button>
         </NavLink>
-
       </section>
     </>
   );

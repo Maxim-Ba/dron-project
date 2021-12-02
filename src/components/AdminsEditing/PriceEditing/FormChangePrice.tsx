@@ -33,6 +33,9 @@ const FormChangePrice: FunctionComponent<FormChangePriceProps> = () => {
         try {
           fetchPriceList(true);
           const materials = await priceAPI.getPrice(selectedPriceName.name);
+          if (materials === 401) {
+            fetchPriceList(false);
+        }
           setPriceList(materials);
         }
         catch (error) {
@@ -44,7 +47,9 @@ const FormChangePrice: FunctionComponent<FormChangePriceProps> = () => {
       };
     };
   };
-
+  useEffect(() => {
+    return ()=>{fetchPriceList(false);};    
+  }, []);
   useEffect(() => {
     getPriceByPriceName();
     return ()=>{readyForChangePrice(false);};    

@@ -1,6 +1,6 @@
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { FunctionComponent, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import priceAPI from "../../../backendAPI/priceAPI";
 import { blackText, customStyleButton, redColor, whiteColor } from "../../../custom-styles-for-antd/styleVariables";
 import { useActions } from "../../../hooks/useActions";
@@ -31,22 +31,29 @@ const Buttons: FunctionComponent = () => {
         return !selectedPrice;
     };
     const { getPriceNames } = useActions();
+    const history = useHistory();
+
 
     const handleGetPriceNames = async () => {
         try {
+            fetchPriceList(true);
             setRefreshDisabled(true);
             const data = await priceAPI.getPriceNames();
+            if (data === 401) {
+                fetchPriceList(false);
+                return history.goBack();
+            }
             getPriceNames(data);
-
         } catch (error) {
             console.log(error);
         }
         finally {
             setRefreshDisabled(false);
+            fetchPriceList(false);
         }
     };
 
-    const { setVisibleMW, setType } = useActions();
+    const { setVisibleMW, setType, fetchPriceList } = useActions();
 
     return (
         <>
@@ -110,19 +117,34 @@ const Buttons: FunctionComponent = () => {
 
 
 const EditPrice: FunctionComponent<EditPriceProps> = () => {
-    const { priceNames } = useTypedSelector(state => state.price);
+    const { priceNames, isFetchPriceList } = useTypedSelector(state => state.price);
     const { typeMV } = useTypedSelector(state => state.modalWindow);
 
-    const { getPriceNames, setType } = useActions();
+    const { getPriceNames, setType,fetchPriceList } = useActions();
 
+    const history = useHistory();
 
     const handleGetPriceNames = async () => {
-        const data = await priceAPI.getPriceNames();
-        getPriceNames(data);
+        try {
+            fetchPriceList(true);
+            const data = await priceAPI.getPriceNames();
+            if (data === 401) {
+                fetchPriceList(false);
+                return history.goBack();
+            }
+            getPriceNames(data);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            fetchPriceList(false);
+        }
+
     };
     useEffect(() => {
         setType(TypesofMW.PRICE_CREATE);
         handleGetPriceNames();
+        return ()=>{fetchPriceList(false);};
+
     }, []);
 
 
@@ -149,9 +171,7 @@ const EditPrice: FunctionComponent<EditPriceProps> = () => {
     };
 
     return (
-
         <>
-
             <Header buttonName={customButtonsStyleType.price} />
             <ModlWindow
                 children={swichPropsMW(typeMV).children}
@@ -160,12 +180,12 @@ const EditPrice: FunctionComponent<EditPriceProps> = () => {
             />
             <div className={'order-creation'}>
                 <section className="order-creation__section">
-                    <WrapperButtons buttons={<Buttons />} />
-                    <PriceTable dataTable={priceNames} />
-
+                <Spin tip="Loading..." spinning={isFetchPriceList}>
+                        <WrapperButtons buttons={<Buttons />} />
+                        <PriceTable dataTable={priceNames} />
+                        </Spin>
                 </section>
             </div>
-
 
             <Footer >
                 <div className="order-creation__button-wrapper">
@@ -183,7 +203,6 @@ const EditPrice: FunctionComponent<EditPriceProps> = () => {
                             {true ? customButtonsStyleType.back : customButtonsStyleType.cancel}
                         </Button>
                     </NavLink>
-
                 </div>
             </Footer>
         </>

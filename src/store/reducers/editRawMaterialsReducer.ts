@@ -14,6 +14,7 @@ const initialState: IEditRawMaterialsState = {
     units: null,
   },
   valuesForChange: {},
+  isFetch:false
 };
 
 export const editRawMaterialsReducer = (
@@ -21,14 +22,6 @@ export const editRawMaterialsReducer = (
   action: EditRawMaterialsActions
 ): IEditRawMaterialsState => {
   switch (action.type) {
-    // case editRawMaterialsActionsTypes.CREATE:
-    //   return {
-    //     ...state,
-    //     rawMaterialsList: [
-    //       ...state.rawMaterialsList,
-    //       { name: action.payload.name, id: action.payload.id, units:action.payload.units },
-    //     ],
-    //   };
     case editRawMaterialsActionsTypes.GET:
       return {
         ...state,
@@ -64,6 +57,11 @@ export const editRawMaterialsReducer = (
           ...state,
           valuesForChange: {...action.payload},
         };
+        case editRawMaterialsActionsTypes.FETCH:
+          return {
+            ...state,
+            isFetch: action.payload,
+          };
     default:
       return state;
   }

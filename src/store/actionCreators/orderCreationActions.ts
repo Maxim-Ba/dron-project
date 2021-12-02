@@ -132,3 +132,19 @@ export const setOnLeft = () =>{
         });
     };
   };
+
+  export const toggleFetchOrderCreation = (flag:boolean) =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.TOGGLE_FETCH,
+          payload: flag
+        });
+    };
+  };
+  export const clearRawMaterialsListOrderCreation = () =>{
+    return async (dispatch:Dispatch<OrderCreationAction>)=>{
+        dispatch({
+          type:orderCreationTypes.CLEAR_RAW_MATERIALS,
+        });
+    };
+  };

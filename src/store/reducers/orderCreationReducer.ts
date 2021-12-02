@@ -13,6 +13,7 @@ const initialState: IOrderCreationState = {
   client: null,
   price: null,
   date: null,
+  isFetch: false
 };
 
 export const orderCreationReducer = (
@@ -118,6 +119,16 @@ export const orderCreationReducer = (
         ...state,
         date: null,
       };
+      case orderCreationTypes.TOGGLE_FETCH:
+        return {
+          ...state,
+          isFetch: action.payload,
+        };
+        case orderCreationTypes.CLEAR_RAW_MATERIALS:
+          return {
+            ...state,
+            rawMaterialList: [{ amount: 0, name: "",id:0 }],
+          };
     default:
       return state;
   }

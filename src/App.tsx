@@ -31,13 +31,18 @@ function App() {
   } = useTypedSelector(state => state.options);
 
   const {setUser, setIsFetching, setAllStyleFromLocStor} = useActions();
-  // const {isFetching } = useTypedSelector(state=>state.user);
-
   const handleAuth = async() =>{
-    setIsFetching(true);
-    const data  = await usersAPI.auth();
-    setUser(data?.id, data?.email, data?.role);
-    setIsFetching(false);
+    try {
+      setIsFetching(true);
+      const data  = await usersAPI.auth();
+      setUser(data?.id, data?.email, data?.role);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFetching(false);
+
+    }
+
   };
 
   useEffect(

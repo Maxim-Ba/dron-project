@@ -17,8 +17,10 @@ class RawMaterialAPI{
         },
         body: JSON.stringify({nameMaterial, units})
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
-      console.log(data, 'g materials');
       if (data.name === "error") {
         return data;
       }
@@ -45,6 +47,9 @@ class RawMaterialAPI{
         },
         body: JSON.stringify({...valuesForChange})
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       if (data.name === "error") {
         return data;
@@ -70,8 +75,10 @@ class RawMaterialAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
-      console.log(data, 'g materials');
       const rawMaterials = data.map((material: { name: any; raw_material_id: any; unit_name:string;})=>({
         name:material.name, 
         id:material.raw_material_id,
@@ -92,8 +99,10 @@ class RawMaterialAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
-      console.log(data, 'g materials');
       const rawMaterials = data.map((material: { name: any; raw_material_id: any; unit_name:string;})=>({
         name:material.name, 
         id:material.raw_material_id,
@@ -114,8 +123,10 @@ class RawMaterialAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
-      console.log(data, 'g n u materials');
 
       const units = data.units.map((unit: { unit_name: any; id_unit_name: any; })=>({
         name:unit.unit_name, 

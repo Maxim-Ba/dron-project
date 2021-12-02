@@ -1,11 +1,10 @@
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { FunctionComponent, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import rawMaterialAPI from "../../../backendAPI/rawMaterialAPI";
 import { blackText, customStyleButton, redColor, whiteColor } from "../../../custom-styles-for-antd/styleVariables";
 import { useActions } from "../../../hooks/useActions";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
-import { setOnLeftOrderViev } from "../../../store/actionCreators/veiwOrderActions";
 import { customButtonsStyleType } from "../../../types/buttonTypes";
 import { TypesofMW } from "../../../types/ModalWindowTypes/ModalWindowTypes";
 import { routesEnum } from "../../../types/routes";
@@ -25,7 +24,7 @@ interface EditRawMaterialsProps {
 
 const { block, shape, type, style } = customStyleButton;
 const Buttons: FunctionComponent = () => {
-  const { materialSelected } = useTypedSelector(state => state.rawMaterials);
+  const { materialSelected,isFetch } = useTypedSelector(state => state.rawMaterials);
   const [refreshDisabled, setRefreshDisabled] = useState(false);
   const adapterToButtonDisabled = ():boolean=>{
     if (materialSelected === 0) {
@@ -33,25 +32,29 @@ const Buttons: FunctionComponent = () => {
     }
     return !materialSelected;
   };
-  const { getRawMaterials } = useActions();
+  const { getRawMaterials, fetchRawMaterials,setVisibleMW, setType } = useActions();
 
+  const history = useHistory();
 
   const handleGetMaterials = async () => {
     try {
+      fetchRawMaterials(true);
       setRefreshDisabled(true);
       const data = await rawMaterialAPI.getRawMaterials();
+      if (data === 401) {
+        fetchRawMaterials(false);
+        return history.goBack();
+      }
       getRawMaterials(data);
-
     } catch (error) {
       console.log(error);
     }
     finally {
       setRefreshDisabled(false);
+      fetchRawMaterials(false);
     }
 
   };
-
-  const { setVisibleMW, setType } = useActions();
 
   return (
     <>
@@ -114,22 +117,34 @@ const Buttons: FunctionComponent = () => {
 };
 
 const EditRawMaterials: FunctionComponent<EditRawMaterialsProps> = () => {
-  const { rawMaterialsList } = useTypedSelector(state => state.rawMaterials);
+  const { rawMaterialsList, isFetch } = useTypedSelector(state => state.rawMaterials);
   const { typeMV } = useTypedSelector(state => state.modalWindow);
 
-  const { getRawMaterials, setType, getUnits } = useActions();
-
+  const { getRawMaterials, setType, getUnits, fetchRawMaterials } = useActions();
+  const history = useHistory();
 
   const handleGetMaterials = async () => {
-    const data = await rawMaterialAPI.getRawMaterialsAndUnits();
-    getRawMaterials(data?.rawMaterials);
-    getUnits(data?.units);
-
+    try {
+      fetchRawMaterials(true);
+      const data = await rawMaterialAPI.getRawMaterialsAndUnits();
+      if (data === 401) {
+        fetchRawMaterials(false);
+        return history.goBack();
+      }
+      getRawMaterials(data?.rawMaterials);
+      getUnits(data?.units);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      fetchRawMaterials(false);
+    }
+    
   };
 
   useEffect(() => {
     setType(TypesofMW.RAW_MATERIALS_CREATE);
     handleGetMaterials();
+    return()=>{fetchRawMaterials(false);};
   }, []);
 
 
@@ -167,8 +182,10 @@ const EditRawMaterials: FunctionComponent<EditRawMaterialsProps> = () => {
         />
         <div className={'order-creation'}>
           <section className="order-creation__section">
-            <WrapperButtons buttons={<Buttons />} />
-            <MaterialsTable dataTable={rawMaterialsList} />
+            <Spin spinning={isFetch} tip="Loading...">
+              <WrapperButtons buttons={<Buttons />} />
+              <MaterialsTable dataTable={rawMaterialsList} />
+            </Spin>
           </section>
         </div>
   

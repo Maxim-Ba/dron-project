@@ -27,7 +27,8 @@ export interface IOrderCreationState {
   rawMaterialList: Array<rawMaterial> ,
   client: Client | null,
   price: Price | null,
-  date: Date | null | string
+  date: Date | null | string,
+  isFetch: boolean
 }
 
 export enum orderCreationTypes {
@@ -40,9 +41,10 @@ export enum orderCreationTypes {
   SET_RAW_MATERIAL_NAME="SET_RAW_MATERIAL_NAME",
   SET_RAW_MATERIAL_AMOUNT="SET_RAW_MATERIAL_AMOUNT",
   REMOVE_RAW_MATERIAL="REMOVE_RAW_MATERIAL",
+  TOGGLE_FETCH="TOGGLE_FETCH",
 
   REMOVE_RAW_MATERIAL_NAME="REMOVE_RAW_MATERIAL_NAME",
-
+  CLEAR_RAW_MATERIALS="CLEAR_RAW_MATERIALS",
   SET_CLIENT="SET_CLIENT",
   REMOVE_CLIENT="REMOVE_CLIENT",
   SET_PRICE="SET_PRICE",
@@ -50,9 +52,15 @@ export enum orderCreationTypes {
   SET_DATE="SET_DATE",
   CLEAR_DATE="CLEAR_DATE"
 }
-
+interface IClearRawMaterialsdAction {
+  type: orderCreationTypes.CLEAR_RAW_MATERIALS,
+}
 interface IBtnDisabledAction {
   type: orderCreationTypes.SET_BUTTON_DISABLED,
+}
+interface IToggleFetchAction {
+  type: orderCreationTypes.TOGGLE_FETCH,
+  payload:boolean
 }
 interface IBtnUndisabledAction {
   type: orderCreationTypes.SET_BUTTON_UNDISABLED,
@@ -125,3 +133,5 @@ export type OrderCreationAction =
   | ISetDateAction
   | IRemoveDateAction
   | IRemoveRawMaterialNameAction
+  | IToggleFetchAction
+  | IClearRawMaterialsdAction

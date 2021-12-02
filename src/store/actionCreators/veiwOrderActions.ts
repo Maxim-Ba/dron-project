@@ -54,3 +54,11 @@ export const setOnRightOrderViev = () =>{
         });
     };
   };
+  export const toggleFetchVO = (flag:boolean) =>{
+    return async (dispatch:Dispatch<OrderViewActions>)=>{
+        dispatch({
+          type:OrderViewActionTypes.TOGGLE_FETCH,
+          payload: flag
+        });
+    };
+  };

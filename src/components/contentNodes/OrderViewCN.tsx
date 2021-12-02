@@ -1,4 +1,4 @@
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row, Spin } from "antd";
 import { CSSProperties, FunctionComponent, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import clientsAPI from "../../backendAPI/clientsAPI";
@@ -28,8 +28,8 @@ const width: CSSProperties = {
 const { block, shape, style, type, } = customStyleButton;
 
 const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
-  const { setOnLeftOrderViev, setOnRightOrderViev, getClients, selectDateStatrVO, selectDateEndVO, selectClientVO, setDisabledNextBtn, setUnaisabledNextBtn, setTableDataVO } = useActions();
-  const { isDisabled, isOnRight, selectedClient, selectedDateStart, selectedDateEnd, tableData } = useTypedSelector(state => state.viewOrder);
+  const { setOnLeftOrderViev, setOnRightOrderViev, getClients, selectDateStatrVO, selectDateEndVO, selectClientVO, setDisabledNextBtn, setUnaisabledNextBtn, setTableDataVO, toggleFetchVO } = useActions();
+  const { isDisabled, isFetch, isOnRight, selectedClient, selectedDateStart, selectedDateEnd, tableData } = useTypedSelector(state => state.viewOrder);
   const {
     backBackgroundBack,
     backBackgroundNext,
@@ -42,35 +42,63 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
 
 
   const handleGetClients = async () => {
-    // isFetch
-    const data = await clientsAPI.getClients();
-    if (data.message) {
-      history.goBack();// redirect Login
+    try {
+      toggleFetchVO(true);
+      const data = await clientsAPI.getClients();
+      if (data.message) {
+        toggleFetchVO(false);
+        history.goBack();
+      }
+      if (data === 401) {
+        toggleFetchVO(false);
+        return history.goBack();
+      }
+      getClients(data);
+    } catch (error) {
+      console.log(error);
+    } finally{
+      toggleFetchVO(false);
     }
-    getClients(data);
-    // isFetch
   };
 
   const showOrdersData = async () => {
-    // isFetch
-    const ordersData = await OrderAPI.getOrdersByClient(selectedClient?.id as number, selectedDateStart, selectedDateEnd);
-    setTableDataVO(ordersData as IDatacolumn[]);
-
-    // isFetch
-
-    setOnRightOrderViev();
+    try {
+      toggleFetchVO(true);
+      const ordersData = await OrderAPI.getOrdersByClient(selectedClient?.id as number, selectedDateStart, selectedDateEnd);
+      if (ordersData === 401) {
+        toggleFetchVO(false);
+        return history.goBack();
+      }
+      setTableDataVO(ordersData as IDatacolumn[]);
+      setOnRightOrderViev();
+    } catch (error) {
+      console.log(error);
+    } finally{
+      toggleFetchVO(false);
+    }
   };
 
   const handleGetAllClients = async () => {
-    // isFetch
-    const ordersData = await OrderAPI.getOrders(selectedDateStart, selectedDateEnd);
-    setTableDataVO(ordersData as IDatacolumn[]);
-    // isFetch
-    setOnRightOrderViev();
+    try {
+      toggleFetchVO(true);
+      const ordersData = await OrderAPI.getOrders(selectedDateStart, selectedDateEnd);
+      if (ordersData === 401) {
+        toggleFetchVO(false);
+        return history.goBack();
+      }
+      setTableDataVO(ordersData as IDatacolumn[]);
+      setOnRightOrderViev();
+    } catch (error) {
+      console.log(error);
+    } finally{
+      toggleFetchVO(false);
+    }
+    
 
   };
   const getExelFile = async()=>{
     const ordersData = await OrderAPI.getExelFile(tableData);
+    
   };
 
 
@@ -86,6 +114,7 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
       selectDateStatrVO(null);
       selectDateEndVO(null);
       setTableDataVO([]);
+      toggleFetchVO(false);
     };
   }, []);
 
@@ -103,6 +132,7 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
         <section
           className="order-creation__section"
         >
+          <Spin spinning={isFetch} tip="Loading...">
 
           <Row gutter={[0, 16]} justify='center' align="top">
             <Col span={24} className="order-creation__item">
@@ -130,6 +160,7 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
               </Button>
             </Col>
           </Row>
+          </Spin>
         </section>
 
 

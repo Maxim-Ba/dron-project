@@ -29,6 +29,9 @@ class OrderAPI {
           },
         }
       );
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       return data;
     } catch (error) {
@@ -54,6 +57,9 @@ class OrderAPI {
           },
         }
       );
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       return data;
     } catch (error) {
@@ -80,6 +86,9 @@ class OrderAPI {
         },
         body: JSON.stringify(orderData),
       });
+      if (response.status === 401) {
+        return 401;
+      }
       const data = await response.json();
       return data;
     } catch (error) {
@@ -97,6 +106,9 @@ class OrderAPI {
         },
         body: JSON.stringify({orderData: tableData}),
       });
+      if (response.status === 401) {
+        return 401;
+      }
       if (response.status === 200) {
         const blob = await response.blob();
         const downloadUrl = window.URL.createObjectURL(blob);

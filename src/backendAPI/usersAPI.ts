@@ -1,3 +1,4 @@
+import { check401Err } from './../utils/check401Err';
 
 
 class UserAPI{
@@ -36,6 +37,7 @@ class UserAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      check401Err(response);
       const data = await response.json();
       const {id, email, role} = data;
       console.log(data, '/auth');

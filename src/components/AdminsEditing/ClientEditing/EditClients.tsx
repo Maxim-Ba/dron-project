@@ -1,6 +1,6 @@
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { blackText, customStyleButton, redColor, whiteColor } from "../../../custom-styles-for-antd/styleVariables";
 import { useActions } from "../../../hooks/useActions";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
@@ -114,20 +114,36 @@ const Buttons: FunctionComponent = () => {
 
 const EditClients: FunctionComponent<EditClientsProps> = () => {
 
-  const { clientList } = useTypedSelector(state => state.clients);
+  const { clientList, isFetching } = useTypedSelector(state => state.clients);
   const { typeMV } = useTypedSelector(state => state.modalWindow);
 
-  const { getClients, setType } = useActions();
+  const { getClients, setType,toggleFetchingClient } = useActions();
+  const history = useHistory();
 
 
   const handleGetClients = async () => {
-    const data = await clientsAPI.getClients();
-    getClients(data);
+    try {
+      toggleFetchingClient(true);
+      const data = await clientsAPI.getClients();
+      if (data === 401) {
+        toggleFetchingClient(false);
+        return history.goBack();
+      }
+      getClients(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      toggleFetchingClient(false);
+    }
+    
   };
+  
   useEffect(() => {
     setType(TypesofMW.CLIENT_CREATE);
-
     handleGetClients();
+    return()=>{
+      toggleFetchingClient(false);
+    };
   }, []);
 
 
@@ -165,8 +181,10 @@ const EditClients: FunctionComponent<EditClientsProps> = () => {
       />
       <div className={'order-creation'}>
         <section className="order-creation__section">
-          <WrapperButtons buttons={<Buttons />} />
-          <ClientTable dataTable={clientList} />
+          <Spin tip="Loading..." spinning={isFetching}>
+            <WrapperButtons buttons={<Buttons />} />
+            <ClientTable dataTable={clientList} />
+          </Spin>
         </section>
       </div>
 

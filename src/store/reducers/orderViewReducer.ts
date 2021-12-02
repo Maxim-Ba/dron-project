@@ -11,6 +11,7 @@ const initialState: IOrderViewState = {
   selectedDateStart: null,
   selectedDateEnd: null,
   tableData: [],
+  isFetch: false,
 };
 
 export const viewOrderReducer = (
@@ -18,6 +19,11 @@ export const viewOrderReducer = (
   action: OrderViewActions
 ): IOrderViewState => {
   switch (action.type) {
+    case OrderViewActionTypes.TOGGLE_FETCH:
+      return {
+        ...state,
+        isFetch: action.payload,
+      };
     case OrderViewActionTypes.SET_ON_RIGHT:
       return {
         ...state,

@@ -1,12 +1,13 @@
 import { IDatacolumn } from "./dataColumn";
 
 export interface IOrderViewState {
-    isOnRight:boolean,
-    isDisabled:boolean,
+    isOnRight:boolean
+    isDisabled:boolean
     selectedClient:null | {id:number, name:string}
     selectedDateStart: null | Date |string
     selectedDateEnd: null | Date | string
     tableData: IDatacolumn[] | []
+    isFetch: boolean
 }
 
 export enum OrderViewActionTypes {
@@ -17,9 +18,15 @@ export enum OrderViewActionTypes {
     SELECT_CLIENT="SELECT_CLIENT",
     SELECT_DATE_END="SELECT_DATE_END",
     SELECT_DATE_START="SELECT_DATE_START",
-    SET_TABLE_DATA="SET_TABLE_DATA"
+    SET_TABLE_DATA="SET_TABLE_DATA",
+    TOGGLE_FETCH="TOGGLE_FETCH"
 }
 
+
+interface IToggleFetchAction {
+    type:OrderViewActionTypes.TOGGLE_FETCH,
+    payload: boolean
+}
 interface ISetTableDataAction {
     type:OrderViewActionTypes.SET_TABLE_DATA,
     payload: IDatacolumn[] | []
@@ -57,3 +64,4 @@ export type OrderViewActions =
     | ISelectDateStartAction
     | ISelectDateEndAction
     | ISetTableDataAction
+    | IToggleFetchAction
