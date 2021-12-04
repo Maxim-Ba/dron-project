@@ -1,7 +1,9 @@
+import { APIpath } from "../utils/APIpath";
+
 class ClientsAPI{
   baseURL: string;
   constructor(){
-    this.baseURL = 'http://localhost:8000/api/clients';
+    this.baseURL = APIpath + '/clients';
   }
 
   

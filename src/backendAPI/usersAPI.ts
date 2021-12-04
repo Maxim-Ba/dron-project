@@ -1,10 +1,11 @@
+import { APIpath } from '../utils/APIpath';
 import { check401Err } from './../utils/check401Err';
 
 
 class UserAPI{
   baseURL: string;
   constructor(){
-    this.baseURL = 'http://localhost:8000/api/user';
+    this.baseURL = APIpath + '/user';
   }
 
   async login(eMail:string, password:string) {

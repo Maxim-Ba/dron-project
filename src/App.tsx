@@ -20,7 +20,7 @@ import LoginCN from './components/contentNodes/LoginCN';
 import { useActions } from './hooks/useActions';
 
 const mainStyle: CSSProperties = {
-  width: '100vw',
+  maxWidth: '100vw',
   overflowX: 'hidden',
 };
 
@@ -40,9 +40,7 @@ function App() {
       console.log(error);
     } finally {
       setIsFetching(false);
-
     }
-
   };
 
   useEffect(
@@ -65,7 +63,6 @@ function App() {
         color: generateCSSColor(generalColor)
       }}
     >
-
       <Switch>
     
         <Route path={routesEnum.ORDER_CREATION} exact>

@@ -1,9 +1,10 @@
 import { rawMaterial } from "../types/editRawMaterialsTypes";
+import { APIpath } from "../utils/APIpath";
 
 class RawMaterialAPI{
   baseURL: string;
   constructor(){
-    this.baseURL = 'http://localhost:8000/api/raw-materials';
+    this.baseURL = APIpath+ '/raw-materials';
   }
 
   async createRawMaterials(nameMaterial:string, units:string) {

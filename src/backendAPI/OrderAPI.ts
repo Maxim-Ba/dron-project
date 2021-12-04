@@ -1,5 +1,6 @@
 import moment from "moment";
 import { ICreateOrderAPI } from "../types/orderCreationTypes";
+import { APIpath } from "../utils/APIpath";
 
 
 
@@ -7,7 +8,7 @@ class OrderAPI {
   baseURL: string;
 
   constructor() {
-    this.baseURL = "http://localhost:8000/api/orders";
+    this.baseURL = APIpath + "/orders";
   }
 
   async getOrdersByClient(

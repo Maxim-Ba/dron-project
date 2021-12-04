@@ -8,7 +8,7 @@ import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import { customButtonsStyleType } from "../../types/buttonTypes";
 import { customStyleButton } from "../../custom-styles-for-antd/styleVariables";
-import { NavLink, Redirect, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import AddButton from "../buttons/AddButton";
 import RawMaterialItem from "../RawMaterialItem/RawMaterialItem";
 import { routesEnum } from "../../types/routes";

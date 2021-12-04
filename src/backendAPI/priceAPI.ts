@@ -1,10 +1,11 @@
 import { PriceType } from "../types/priceTypes";
+import { APIpath } from "../utils/APIpath";
 
 
 class PriceAPI{
   baseURL: string;
   constructor(){
-    this.baseURL = 'http://localhost:8000/api/price';
+    this.baseURL = APIpath+ '/price';
   }
 
   
