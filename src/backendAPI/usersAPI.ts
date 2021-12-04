@@ -18,10 +18,7 @@ class UserAPI{
         body: JSON.stringify({email:eMail, password})
       });
       const data = await response.json();
-      console.log(data, '/login');
       const {id, email, role, token} = data;
-      console.log(id);
-
       localStorage.setItem('token', token);
       return {id, email, role};
     } catch (error) {
@@ -38,10 +35,9 @@ class UserAPI{
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
-      check401Err(response);
+      // check401Err(response);
       const data = await response.json();
       const {id, email, role} = data;
-      console.log(data, '/auth');
       return {id,email, role};
     } catch (error) {
       console.log(error);
