@@ -23,7 +23,7 @@ const mainStyle: CSSProperties = {
   maxWidth: '100vw',
   overflowX: 'hidden',
 };
-
+console.log(process.env.REACT_APP_ENVIRONMENT, 'process.env.REACT_APP_ENVIRONMENT');
 function App() {
   const {
     generalBackground,
