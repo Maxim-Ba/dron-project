@@ -1,8 +1,8 @@
 import { Table } from 'antd';
-import { CompareFn } from 'antd/lib/table/interface';
 import { FunctionComponent } from 'react';
 import { useActions } from '../../../hooks/useActions';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { adapterForUnitName } from './FormAddMaterial';
 
 
 
@@ -36,7 +36,7 @@ const MaterialsTable: FunctionComponent<MaterialsTableProps> = ({dataTable}) => 
     console.log('params',  filters, sorter);
   }
 
-  const dataTableAdapter = dataTable.map((material)=>({...material, key:material.id}));
+  const dataTableAdapter = dataTable.map((material)=>({...material, key:material.id, units: adapterForUnitName(material.unitId)}));
 
   return ( 
     <Table 

@@ -1,5 +1,4 @@
 import { APIpath } from '../utils/APIpath';
-import { check401Err } from './../utils/check401Err';
 
 
 class UserAPI{

@@ -1,2 +1,1 @@
-// export const APIpath = "http://localhost:8000/api";
-export const APIpath = "https://dron-project.herokuapp.com/api";
+export const APIpath = process.env.REACT_APP_ENVIRONMENT === "development" ? "http://localhost:8000/api" :  "https://dron-project.herokuapp.com/api";

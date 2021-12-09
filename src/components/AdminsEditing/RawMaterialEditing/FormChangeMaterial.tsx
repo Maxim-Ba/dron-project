@@ -3,6 +3,7 @@ import React, { FunctionComponent, useEffect } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
 import { rawMaterial } from "../../../types/editRawMaterialsTypes";
+import { adapterForUnitName } from "./FormAddMaterial";
 
 interface FormChangeMaterialProps {
 
@@ -32,7 +33,7 @@ const FormChangeMaterial: FunctionComponent<FormChangeMaterialProps> = () => {
 
 
     const options = units.map((unit) => {
-      return (<Select.Option key={unit.id} value={unit.name}>{unit.name}</Select.Option>);
+      return (<Select.Option key={unit.id} value={unit.name}>{adapterForUnitName(unit.id)}</Select.Option>);
     });
   
   return (

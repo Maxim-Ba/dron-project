@@ -6,7 +6,18 @@ import { useTypedSelector } from "../../../hooks/useTypedSelector";
 interface FormAddMaterialProps {
 
 }
-
+export const adapterForUnitName = (unitId:number) =>{
+  switch (unitId) {
+    case 1:
+      
+      return 'кг';
+      case 2:
+      
+        return 'шт';
+    default:
+      break;
+  }
+};
 const FormAddMaterial: FunctionComponent<FormAddMaterialProps> = () => {
   const { setMaterialName, setMaterialUnit } = useActions();
   const { name, units: unit } = useTypedSelector(state => state.rawMaterials.creationFields);
@@ -28,8 +39,9 @@ const FormAddMaterial: FunctionComponent<FormAddMaterialProps> = () => {
 
 
 
+
   const options = units.map((unit) => {
-    return (<Select.Option key={unit.id} value={unit.name}>{unit.name}</Select.Option>);
+    return (<Select.Option key={unit.id} value={unit.name}>{adapterForUnitName(unit.id)}</Select.Option>);
   });
 
   return (

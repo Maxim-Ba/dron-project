@@ -134,10 +134,11 @@ class RawMaterialAPI{
         id:unit.id_unit_name
       }));
 
-      const rawMaterials = data.rawMaterials.map((material: {unit_name:string; name: string; raw_material_id: number; })=>({
+      const rawMaterials = data.rawMaterials.map((material: {unit_name:string; name: string; raw_material_id: number; id_unit_name:number })=>({
         name:material.name, 
         id:material.raw_material_id,
-        units:material.unit_name
+        units:material.unit_name,
+        unitId: material.id_unit_name
       }));
       
       return {rawMaterials, units};

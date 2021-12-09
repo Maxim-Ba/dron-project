@@ -65,9 +65,10 @@ const FormChangePrice: FunctionComponent<FormChangePriceProps> = () => {
 
     <Form
       form={form}
+
       layout='vertical'
-      labelCol={{ span: 16 }}
-      wrapperCol={{ span: 8 }}
+      labelCol={{ span: 24 }}
+      wrapperCol={{ span: 24 }}
       size='small'
       onFieldsChange={(_, allFields) => {
         readyForChangePrice(checkAllvaluesIsNotNull(arrayForChange));
