@@ -11,7 +11,7 @@ interface CustomCascaderProps {
   setCallback?: any
   clearCallback?: any
   typeCascader?: CascaderTypes
-  index?:number 
+  index?: number
 }
 
 
@@ -37,6 +37,7 @@ const CustomCascader: FunctionComponent<CustomCascaderProps> = ({
     setRawMaterialNameOC,
     removeRawMaterialName,
     selectClientVO,
+    selectNewItemVO,
   } = useActions();
 
 
@@ -52,10 +53,13 @@ const CustomCascader: FunctionComponent<CustomCascaderProps> = ({
           return setPriceOrderCreation(value[0], selectedOptions[0].label);
         case CascaderTypes.SET_MATERIAL:
           if (selectedOptions[0] === undefined) return removeRawMaterialName(index as number);
-          return setRawMaterialNameOC( selectedOptions[0].label, index ,value[0], );
-          case CascaderTypes.SET_ORDER_VIEW:
-            if (selectedOptions[0] === undefined) return selectClientVO(null);
-            return selectClientVO({id:value[0] as number, name:selectedOptions[0].label as string});
+          return setRawMaterialNameOC(selectedOptions[0].label, index, value[0],);
+        case CascaderTypes.SET_ORDER_VIEW:
+          if (selectedOptions[0] === undefined) return selectClientVO(null);
+          return selectClientVO({ id: value[0] as number, name: selectedOptions[0].label as string });
+          case CascaderTypes.ADD_NEW_PRICE_ITEM:
+            if (selectedOptions[0] === undefined) return selectNewItemVO( null,  '', index as number);
+            return selectNewItemVO( value[0] as number,  selectedOptions[0].label as string, index as number );
         default:
           break;
       }

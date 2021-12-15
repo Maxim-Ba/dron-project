@@ -1,5 +1,5 @@
 import moment from "moment";
-import { ICreateOrderAPI } from "../types/orderCreationTypes";
+import { ICreateOrderAPI, IEditOrderAPI } from "../types/orderCreationTypes";
 import { APIpath } from "../utils/APIpath";
 
 
@@ -81,6 +81,26 @@ class OrderAPI {
     try {
       const response = await fetch(this.baseURL, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify(orderData),
+      });
+      if (response.status === 401) {
+        return 401;
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async editOrder(orderData: IEditOrderAPI) {
+    try {
+      const response = await fetch(this.baseURL, {
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json;charset=utf-8",

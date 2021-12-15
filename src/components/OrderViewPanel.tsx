@@ -1,26 +1,61 @@
-import { FunctionComponent } from "react";
-import { Row, Col } from 'antd';
+import { FunctionComponent, useEffect } from "react";
+import { Row, Col, Button } from 'antd';
+import { useActions } from "../hooks/useActions";
+import { EditOutlined } from "@ant-design/icons";
+import { IMaterialList } from "../types/dataColumn";
 
 interface OrderViewPanelProps {
   sum: number,
   date: string | DateConstructor,
-  id: number | null
+  id: number ,
+  materialList?:IMaterialList[]
+
 }
 
 const OrderViewPanel: FunctionComponent<OrderViewPanelProps> = ({ sum, date, id }) => {
   if (sum === null) {
     sum = 0;
   }
-  return (
-    <Row gutter={16} >
-      <Col className="gutter-row" span={24 - 8} >
-        <div >{date}</div>
-      </Col>
+  const { setVisibleMW, selectOrderForChange } = useActions();
 
-      <Col className="gutter-row" span={8} >
-        <div >{sum.toString() + ' руб'}</div>
-      </Col>
-    </Row>
+  useEffect(() => {
+    return () => { setVisibleMW(false); };
+  }, []);
+  return (
+      
+      <Row
+        gutter={16}
+      >
+        <Col className="gutter-row" span={24 - 14} >
+          <div >{date}</div>
+        </Col>
+
+        <Col className="gutter-row" span={6} >
+          <Button
+            block={true}
+            type="primary"
+            shape="round"
+            size={'small'}
+            icon={<EditOutlined />}
+            style={{
+              backgroundColor: 'orange',
+              color: 'black',
+              border: 'none'
+            }}
+
+            onClick={(e) => {
+              selectOrderForChange(id);
+              setVisibleMW(true);
+              e.stopPropagation();
+            }}
+          />
+        </Col>
+
+        <Col className="gutter-row" span={8} >
+          <div >{sum.toString() + ' руб'}</div>
+        </Col>
+      </Row>
+
   );
 };
 

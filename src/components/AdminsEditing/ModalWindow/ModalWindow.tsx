@@ -1,13 +1,13 @@
 import { Modal } from "antd";
 import { FunctionComponent, ReactNode, useEffect } from "react";
 import clientsAPI from "../../../backendAPI/clientsAPI";
+import OrderAPI from "../../../backendAPI/OrderAPI";
 import priceAPI from "../../../backendAPI/priceAPI";
 import rawMaterialAPI from "../../../backendAPI/rawMaterialAPI";
 import { useActions } from "../../../hooks/useActions";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
 import { rawMaterial } from "../../../types/editRawMaterialsTypes";
 import { TypeMV, TypesofMW } from "../../../types/ModalWindowTypes/ModalWindowTypes";
-import { checkAllvaluesIsNotNull } from "../../../utils/checkAllvaluesIsNotNull";
 
 interface ModlWindowProps {
   children: ReactNode,
@@ -22,7 +22,8 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
     setClientNamesForChange, setClientINNForChange, setClientPhoneForChange,
     getRawMaterials,
     setMaterialName, setMaterialUnit, selectMaterial,
-    getPriceNames, setNameForCreation, readyForDeletePrice, selectPriceNames, arrayForChangePrice, readyForChangePrice,
+    getPriceNames, setNameForCreation, readyForDeletePrice, selectPriceNames,  readyForChangePrice,
+    resetNewItems, toggleFetchVO,setOnLeftOrderViev
   } = useActions();
   const { confirmLoading, visible } = useTypedSelector(state => state.modalWindow);
   const { name, phone, inn } = useTypedSelector(state => state.clients.formFields);
@@ -35,7 +36,7 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
 
   const { name: nameForChange, phone: phoneForChange, inn: innForChange, id } = useTypedSelector(state => state.clients.selectedClientsFields);
   const { readyForDelete } = useTypedSelector(state => state.clients);
-
+  const { newPriceItems, selectToDeletePriceItem, editedPriceItems, selectedOrder} = useTypedSelector(state => state.viewOrder);
   const fetchData = async () => {
     try {
       switch (type) {
@@ -156,7 +157,18 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
             setVisibleMW(false);
           }
           break;
-
+        case TypesofMW.ORDER_CHANGE:
+          if (!!newPriceItems.length || !!selectToDeletePriceItem.length|| !!editedPriceItems.length) {
+            const orderResponse = await OrderAPI.editOrder({newPriceItems,selectToDeletePriceItem,editedPriceItems, selectedOrder});
+            if (orderResponse.name === "error") {
+              alert(orderResponse.detail || "Ошибка");
+              break;
+            }
+            resetNewItems();
+            setVisibleMW(false);
+            setOnLeftOrderViev();
+          }
+          break;
         default:
           break;
       }
@@ -191,10 +203,12 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
         setNameForCreation('');
         setVisibleMW(false);
         break;
-        // case TypesofMW.PRICE_CHANGE:
-        //   setVisibleMW(false);
+        case TypesofMW.ORDER_CHANGE:
+          resetNewItems();
+          setVisibleMW(false);
+          toggleFetchVO(false);
 
-        //   break;
+          break;
       default:
         setVisibleMW(false);
     }
@@ -219,6 +233,12 @@ const ModlWindow: FunctionComponent<ModlWindowProps> = ({ children, title, type 
         return { disabled: !redyForDeletePrice };
       case TypesofMW.PRICE_CHANGE:
         return { disabled: !readyForChange };
+        case TypesofMW.ORDER_CHANGE:
+          return { disabled: 
+            !(!!newPriceItems.length ||
+            !!selectToDeletePriceItem.length  || 
+            !!editedPriceItems.length)  
+          };
       default:
         return undefined;
     }

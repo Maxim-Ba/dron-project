@@ -157,3 +157,22 @@ min-height: 80px;
 .client-view__bolder{
   font-weight: bold;
 }
+
+.orderTable{
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.add-button_edit-order{
+  margin: 20px auto;
+  position: absolute;
+  left: calc(50% - 16px);
+
+}
+.new-price-item{
+  margin: 5px -15px;
+  background-color: rgba(252, 251, 192, .5);
+  padding: 3px;
+  border-radius: 7px;
+}

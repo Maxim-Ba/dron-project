@@ -9,6 +9,7 @@ import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { customButtonsStyleType } from "../../types/buttonTypes";
 import { CascaderTypes } from "../../types/customCascaderTypes";
 import { IDatacolumn } from "../../types/dataColumn";
+import { TypesofMW } from "../../types/ModalWindowTypes/ModalWindowTypes";
 import { routesEnum } from "../../types/routes";
 import { generateCSSColor } from "../../utils/generateCSSColor";
 import { useGenerateOptionCascaderClient } from "../../utils/generateOptionCascader";
@@ -100,13 +101,14 @@ const OrderViewCN: FunctionComponent<OrderViewCNProps> = () => {
     const ordersData = await OrderAPI.getExelFile(tableData);
     
   };
-
+  const {setType} = useActions();
 
   useEffect(function () {
     selectedClient ? setUnaisabledNextBtn() : setDisabledNextBtn();
   }, [selectedClient]);
 
   useEffect(function () {
+    setType(TypesofMW.ORDER_CHANGE);
     handleGetClients();
     return () => {
       selectClientVO(null);

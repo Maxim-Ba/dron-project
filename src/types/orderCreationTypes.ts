@@ -1,3 +1,5 @@
+import { IOrderForChange, NewPriceItem } from "./orderViewTypes";
+
 export interface rawMaterial {
   name: string,
   amount: number,
@@ -12,7 +14,12 @@ interface Price{
   id:number
   name:string
 }
-
+export interface IEditOrderAPI {
+  selectedOrder:IOrderForChange | null
+  selectToDeletePriceItem:number[]
+  newPriceItems:NewPriceItem[]
+  editedPriceItems:number[]
+}
 export interface ICreateOrderAPI {
   client: Client
   price: Price
