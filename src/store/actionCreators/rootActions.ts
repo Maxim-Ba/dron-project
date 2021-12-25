@@ -6,6 +6,7 @@ import * as ClientActionCreaors from './editClientsActions';
 import * as PriceActionCreaors from './priceActions';
 import * as RawMaterialsActionCreaors from './editRawMaterialsActions';
 import * as ModalWindowActionCreaors from './modalWindowActions/modalWindowActions';
+import * as CanvasActions from './CanvasGraphActions';
 
 
 export default {
@@ -17,5 +18,6 @@ export default {
   ...PriceActionCreaors,
   ...RawMaterialsActionCreaors,
   ...ModalWindowActionCreaors,
+  ...CanvasActions
 
 };

@@ -118,6 +118,7 @@
   min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
+  /* overflow-x: scroll; */
 }
 .admin__button{
   margin-bottom: 10px;
@@ -175,4 +176,9 @@ min-height: 80px;
   background-color: rgba(252, 251, 192, .5);
   padding: 3px;
   border-radius: 7px;
+}
+.canvas-wrapper{
+  overflow-x: scroll;
+  width: 100vw;
+
 }

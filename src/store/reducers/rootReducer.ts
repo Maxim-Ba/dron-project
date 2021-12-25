@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { canvasGraphReducer } from "./CanvasGraph.Reducer";
 import { editClientsReducer } from "./editClientsReducer";
 import { editRawMaterialsReducer } from "./editRawMaterialsReducer";
 import { modalWindowReducer } from "./ModalWindowReducer/SetConfirmLoading";
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
   price: priceReducer,
   rawMaterials: editRawMaterialsReducer,
   modalWindow:modalWindowReducer,
+  canvasReducer: canvasGraphReducer,
 
 });
 
