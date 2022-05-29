@@ -3,17 +3,15 @@
 Часть прототипа мобильного приложения: интерфейс для базы данных. 
 - Реализовано: добавление, удаление, редактирование элементов БД, выгрузка заказов в формате .xls, график зависимости заказов(руб.) от времени, настройки внешнего вида приложения, роль админа БД и пользователя (создание заказа и редактирование)
 - Осталось реализовать: SSR, оптимизация загрузки... 
-
-
-## Heroku
-https://dron-project-frontend.herokuapp.com/
+- Этот проект с фриланс заказа 
 
 ## GH-PAGES
- https://maxim-ba.github.io/dron-project/
+ https://maxim-ba.github.io/dron-project/ (без backend)
 
 ## Backend 
 https://github.com/Maxim-Ba/dron-project-backend
 
 ## Запуск приложения 
+ - Запустить backend https://github.com/Maxim-Ba/dron-project-backend#readme
  - npm i
  - npm run start:dev
